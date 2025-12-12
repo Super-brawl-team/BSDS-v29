@@ -54,11 +54,9 @@ READ THIS PLEASE I BEG YOU, to make the client connect to server BEFORE INSTALLI
 5. Patched HoldToShoot attacking before game starts
 6. prob more but i forgot
 
-![image](https://user-images.githubusercontent.com/72312877/213475759-20669970-c333-4b10-b7e9-073995d38472.png)
+![image](https://github.com/Super-brawl-team/BSDS-v29/tree/v29/images/gameplay.png)
 
 ## credits ##
 [S.B#0056](https://github.com/HaccerCat) for his help with crypto and client
-
-[gabriel5_](https://github.com/Gabriel55ita) Android Client
 
 [Vitalik](https://github.com/VitalikObject) for his crypto from [OldBrawl](https://github.com/VitalikObject/OldBrawl)

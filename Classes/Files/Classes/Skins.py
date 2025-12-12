@@ -12,15 +12,14 @@ class Skins:
                 if line_count == 0 or line_count == 1:
                     line_count += 1
                 else:
-                    if row[2].lower() != "true":
-                        (line_count - 2)
-                        SkinsID.append(line_count - 2)
-                    if row[0] != "":
-                        line_count += 1
+                    if row[0] == "":
+                        continue
+                    SkinsID.append(line_count - 2)
+                    line_count += 1
 
             return SkinsID
 
-    def getBrawlerBySkin(self, skinID):
+    def getBrawlerBySkin(skinID):
         with open('Classes/Files/assets/csv_logic/skins.csv') as csv_file:
             csv_reader = csv.reader(csv_file, delimiter=',')
             line_count = 0
@@ -29,6 +28,8 @@ class Skins:
                 if line_count == 0 or line_count == 1:
                     line_count += 1
                 else:
+                    if row[0] == "":
+                        continue
                     if line_count - 2 == skinID:
                         confName = row[1]
                         with open('Classes/Files/assets/csv_logic/skin_confs.csv') as csv_file:
@@ -39,6 +40,8 @@ class Skins:
                                 if line_count2 == 0 or line_count2 == 1:
                                     line_count2 += 1
                                 else:
+                                    if row2[0] == "":
+                                        continue
                                     if row2[0] == confName:
                                         brawlerName = row2[1]
                                         with open('Classes/Files/assets/csv_logic/characters.csv') as csv_file:
@@ -52,10 +55,9 @@ class Skins:
                                                         return line_count3 - 2
                                                     if row3[0] != "":
                                                         line_count3 += 1
-                                    if row2[0] != "":
-                                        line_count2 += 1
-                    if row[0] != "":
-                        line_count += 1
+                                    line_count2 += 1
+                    line_count += 1
+                    
 
     def getSkinInfoByID(id):
         with open('Classes/Files/assets/csv_logic/skins.csv') as csv_file:
@@ -112,26 +114,6 @@ class Skins:
                         if i != '':
                             formatedRow.append(i)
                     print(formatedRow)
-                    if row[0] != "":
-                        line_count += 1
-
-    def getSkinsForBrawler(name):
-        name = name + '_'
-        with open('Classes/Files/assets/csv_logic/skins.csv') as csv_file:
-            csv_reader = csv.reader(csv_file, delimiter=',')
-            line_count = 0
-            for row in csv_reader:
-
-                if line_count == 0 or line_count == 1:
-                    line_count += 1
-                else:
-                    if row[2].lower() != "true" and row[21].startswith(name.lower()):
-                        formatedRow = []
-                        formatedRow.append(line_count - 2)
-                        for i in row:
-                            if i != '':
-                                formatedRow.append(i)
-                        print(formatedRow)
                     if row[0] != "":
                         line_count += 1
 

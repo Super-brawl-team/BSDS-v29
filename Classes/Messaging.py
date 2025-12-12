@@ -20,6 +20,8 @@ class Messaging:
             message.encode(fields, player)
         else:
             message.encode(fields)
+        if messageType == 20100:
+            cryptoInit.setSessionKey(message.getSessionKey())
         message.messagePayload = cryptoInit.encryptServer(message.getMessageType(), message.messagePayload)
         Messaging.writeHeader(message, len(message.messagePayload))
         message.messageBuffer += message.messagePayload

@@ -27,8 +27,9 @@ class Nonce:
     
 class Crypto:
     def __init__(self):
-        self.server_private_key = b'\x9e\xd9n\x05W\xf9\xde\xea\xccy\xb1\xe4;O]\xd9\x19!q\xb9w\xab\xcd\xf6\x0b\xb9\xb9\x16\x8c\x98k\x14'
-        self.server_public_key = crypto_scalarmult_base(self.server_private_key) # crypto_scalarmult_base of server private key
+        self.authenticated = False
+        self.client_secret_key = bytes.fromhex("BB14D6FD2B7C9823EAEDB4338CB7237F61E422D23C4977F74ADA052702C0C62D")
+        self.server_public_key = bytes.fromhex("0C60170E51746626A27683BF1619467A3C8BBCF9785C4899358EF71A3384CD74") # crypto_scalarmult_base of server private key
         self.client_public_key = None
         self.session_key = None
         self.shared_encryption_key = bytes(urandom(32))
@@ -41,25 +42,33 @@ class Crypto:
         if packet_id == 10100:
             return payload
         elif packet_id == 10101:
+            self.authenticated = True
             self.client_public_key = bytes(payload[:32])
+            if payload[:32] != self.client_public_key:
+                raise self.CryptographyError(f"Client public key does not match! client public key: {self.client_public_key}, message (10101) key: {payload[:32]}")
             self.nonce = Nonce(clientKey=self.client_public_key, serverKey=self.server_public_key)
-            self.s = crypto_box_beforenm(self.client_public_key, self.server_private_key)
+            self.s = crypto_box_beforenm(self.server_public_key, self.client_secret_key)
             payload = bytes(payload[32:])
             decrypted = crypto_secretbox_open(payload, bytes(self.nonce), self.s)
+            if decrypted[:24] != self.session_key:
+                raise self.CryptographyError("LoginMessage SessionKey does not match with server key!")
             self.decryptNonce = Nonce(decrypted[24:48])
             return decrypted[48:]
         elif self.decryptNonce is None:
             return payload
         else:
+            if not self.authenticated: raise self.CryptographyError("Client Session has not passed authentication yet!")
             self.decryptNonce.increment()
             decrypted = crypto_secretbox_open(payload, bytes(self.decryptNonce), self.shared_encryption_key)
             return decrypted
 
     def encryptServer(self, packet_id, payload):
-        if packet_id == 20100 or packet_id == 20103:
+        if packet_id == 20100:
+            return payload
+        elif packet_id == 20103 and self.authenticated == False:
             return payload
         else:
-            if packet_id == 20104:
+            if packet_id == 20104 or packet_id == 20103:
                 nonce = Nonce(self.decryptNonce, clientKey=self.client_public_key, serverKey=self.server_public_key)
                 payload = bytes(self.encryptNonce) + self.shared_encryption_key + payload
                 encrypted = crypto_secretbox(payload, bytes(nonce), self.s)
@@ -68,3 +77,6 @@ class Crypto:
                 self.encryptNonce.increment()
                 encrypted = crypto_secretbox(payload, bytes(self.encryptNonce), self.shared_encryption_key)
                 return encrypted
+            
+    def setSessionKey(self, sessionKey):
+        self.session_key = sessionKey

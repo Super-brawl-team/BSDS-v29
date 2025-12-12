@@ -21,6 +21,8 @@ class ChangeAvatarNameMessage(PiranhaMessage):
 
     def execute(message, calling_instance, fields, cryptoInit):
         fields["Socket"] = calling_instance.client
+        calling_instance.player.Name = fields["Name"]
+        calling_instance.player.Registered = True
         fields["Command"] = {"ID": 201}
         Messaging.sendMessage(24111, fields, cryptoInit)
 

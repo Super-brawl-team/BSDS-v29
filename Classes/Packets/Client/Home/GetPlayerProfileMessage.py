@@ -33,6 +33,7 @@ class GetPlayerProfileMessage(PiranhaMessage):
             fields["NameColor"] = self.readVInt()
             fields["unk10"] = self.readVInt()
         fields["unk11"] = self.readVInt()
+        
         super().decode(fields)
 
 

@@ -1,4 +1,7 @@
 from Classes.Commands.Client.LogicPurchaseOfferCommand import LogicPurchaseOfferCommand
+from Classes.Commands.Client.LogicSelectCharacterCommand import LogicSelectCharacterCommand
+from Classes.Commands.Client.LogicSelectSkinCommand import LogicSelectSkinCommand
+from Classes.Commands.Client.LogicSelectStarPowerCommand import LogicSelectStarPowerCommand
 from Classes.Commands.Server.LogicChangeAvatarNameCommand import LogicChangeAvatarNameCommand
 
 
@@ -32,7 +35,7 @@ class LogicCommandManager:
         503: 'LogicClaimDailyRewardCommand',
         504: 'LogicSendAllianceMailCommand',
         505: 'LogicSetPlayerThumbnailCommand',
-        506: 'LogicSelectSkinCommand',
+        506: LogicSelectSkinCommand,
         507: 'LogicUnlockSkinCommand',
         508: 'LogicChangeControlModeCommand',
         509: 'LogicPurchaseDoubleCoinsCommand',
@@ -48,11 +51,11 @@ class LogicCommandManager:
         522: 'LogicHeroSeenCommand',
         523: 'LogicClaimAdRewardCommand',
         524: 'LogicVideoStartedCommand',
-        525: 'LogicSelectCharacterCommand',
+        525: LogicSelectCharacterCommand,
         526: 'LogicUnlockFreeSkinsCommand',
         527: 'LogicSetPlayerNameColorCommand',
         528: 'LogicViewInboxNotificationCommand',
-        529: 'LogicSelectStarPowerCommand',
+        529: LogicSelectStarPowerCommand,
         530: 'LogicSetPlayerAgeCommand',
         531: 'LogicCancelPurchaseOfferCommand',
         532: 'LogicItemSeenCommand',

@@ -1,6 +1,7 @@
 from Classes.Packets.Client.Authentification.ClientHelloMessage import ClientHelloMessage
 from Classes.Packets.Client.Authentification.LoginMessage import LoginMessage
 from Classes.Packets.Client.Battle.AskForBattleEndMessage import AskForBattleEndMessage
+from Classes.Packets.Client.Home.TeamLeaveMessage import TeamLeaveMessage
 from Classes.Packets.Client.Home.ChangeAvatarNameMessage import ChangeAvatarNameMessage
 from Classes.Packets.Client.Home.EndClientTurnMessage import EndClientTurnMessage
 from Classes.Packets.Client.Home.GoHomeFromOfflinePractiseMessage import GoHomeFromOfflinePractiseMessage
@@ -20,7 +21,10 @@ from Classes.Packets.Server.Socket.KeepAliveServerMessage import KeepAliveServer
 from Classes.Packets.Server.Home.PlayerProfileMessage import PlayerProfileMessage
 from Classes.Packets.Server.Home.MyAllianceMessage import MyAllianceMessage
 from Classes.Packets.Server.Home.AllianceDataMessage import AllianceDataMessage
-
+from Classes.Packets.Server.Home.TeamMessage import TeamMessage
+from Classes.Packets.Client.Home.TeamCreateMessage import TeamCreateMessage
+from Classes.Packets.Server.Home.TeamLeftMessage import TeamLeftMessage
+from Classes.Packets.Client.Home.TeamSetLocationMessage import TeamSetLocationMessage
 
 class LogicLaserMessageFactory:
     messagesList = {
@@ -141,10 +145,10 @@ class LogicLaserMessageFactory:
         14324: 'SearchAlliancesMessage',
         14326: 'SendAllianceInvitationToFriendMessage',
         14330: 'SendAllianceMailMessage',
-        14350: 'TeamCreateMessage',
+        14350: TeamCreateMessage,
         14351: 'TeamJoinMessage',
         14352: 'TeamKickMessage',
-        14353: 'TeamLeaveMessage',
+        14353: TeamLeaveMessage,
         14354: 'TeamChangeMemberSettingsMessage',
         14355: 'TeamSetMemberReadyMessage',
         14356: 'TeamTogglePractiseMessage',
@@ -154,7 +158,7 @@ class LogicLaserMessageFactory:
         14360: 'TeamPostAdMessage',
         14361: 'TeamMemberStatusMessage',
         14362: 'TeamSetEventMessage',
-        14363: 'TeamSetLocationMessage',
+        14363: TeamSetLocationMessage,
         14364: 'TeamReportChatMessage',
         14365: 'TeamInviteMessage',
         14366: 'PlayerStatusMessage',
@@ -285,8 +289,8 @@ class LogicLaserMessageFactory:
         24116: 'HomeBattleReplayFailedMessage',
         24117: 'HomeBattleReplayViewedMessage',
         24123: 'SeasonRewardsMessage',
-        24124: 'TeamMessage',
-        24125: 'TeamLeftMessage',
+        24124: TeamMessage,
+        24125: TeamLeftMessage,
         24129: 'TeamErrorMessage',
         24130: 'TeamGameStartingMessage',
         24131: 'TeamStreamMessage',

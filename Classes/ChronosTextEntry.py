@@ -7,4 +7,8 @@ class ChronosTextEntry:
         fields.append(byteStream.readInt())
         fields.append(byteStream.readStringReference())
         return fields
+    
+    def encode(self, byteStream: ByteStream, fields):
+        byteStream.writeInt(fields[0])
+        byteStream.writeStringReference(fields[1])
         

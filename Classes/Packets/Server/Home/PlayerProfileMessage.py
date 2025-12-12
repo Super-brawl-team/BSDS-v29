@@ -17,7 +17,7 @@ class PlayerProfileMessage(PiranhaMessage):
             self.writeVInt(1250) # highestTrophies
             self.writeVInt(11) #power level
         
-        self.writeVInt(17)
+        self.writeVInt(13)
 
         self.writeVInt(1) 
         self.writeVInt(1) # 3v3 victories
@@ -58,19 +58,7 @@ class PlayerProfileMessage(PiranhaMessage):
         self.writeVInt(16) #highest level city rampage
         self.writeVInt(13)
 
-        self.writeVInt(18) #highest solo power league rank
-        self.writeVInt(14)
-
-        self.writeVInt(17) #highest team power league rank
-        self.writeVInt(15)
-
-        self.writeVInt(19) # highest Club league rank
-        self.writeVInt(16)
-
-        self.writeVInt(20) # number fame
-        self.writeVInt(69)
-
-        self.writeString("risporce")  #PlayerInfo
+        self.writeString(player.Name)  #PlayerInfo
         self.writeVInt(100)
         self.writeVInt(28000001)
         self.writeVInt(43000001)

@@ -6,7 +6,7 @@ class OutOfSyncMessage(PiranhaMessage):
         super().__init__(messageData)
         self.messageVersion = 0
 
-    def encode(self, fields):
+    def encode(self, fields, player):
         self.writeVInt(fields["ServerChecksum"])
         self.writeVInt(fields["ClientChecksum"])
         self.writeVInt(fields["Tick"])

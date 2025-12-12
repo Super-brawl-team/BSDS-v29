@@ -6,7 +6,7 @@ class ByteStreamHelper:
         result = []
         result.append(self.readVInt())
         if not result[0]:
-            return None
+            return [result[0], -1] # WTF risporce
         result.append(self.readVInt())
         return result
 

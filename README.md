@@ -1,15 +1,24 @@
 # This is a fork from original BSDS by [Crazor](https://github.com/CrazorTheCat)  with a lot less features, it is meant for developement, do not use for production and hosting for others.
+# This server is rushed a bad honestly, just add crypto back to royalebrawl v29 and use it
 
 Discord link : https://discord.gg/mt4dUxXryh
 
-iOS : https://mega.nz/file/x5MnUarQ#uyOo1KFtB-GWmtTV9c8CEHE2swtG8EVddJnxXdBMLU8
+## Download ##
+Link : https://www.mediafire.com/file/6ivvvh25gmdxjhy/BSDS-29.ipa/file
+READ THIS PLEASE I BEG YOU, to make the client connect to server BEFORE INSTALLING IT you need to 
+1. extract the ipa (rename .ipa to .zip)
+2. use https://github.com/Mimi8298/Supercell.ArxanUnprotector to decrypt the "Brawl Stars" file (you need a PC sorry) 
+3. with an hex editor replace "198.164.1.184" to you own ip
+4. then encrypt it back
+5. update checksums (do not ask and read the readme of arxan unprotector please)
+6. compress the payload folder,
+7. rename the zip to something.ipa
+8. INSTALL THIS NEW VERSION
 
-Android: https://www.mediafire.com/file/jan02oezh1iqwmi/BSDS-v47.apk/file
-
-Second link (fix crash on non-jb device but can't play alongside Brawl Stars, need to delete bs to play) : https://mega.nz/file/UgM02BjB#ffctMG9YrRpXDr-ZdekR-TE3Gs7Gf6IsDsuQwSo1KFU 
 
 ## Requirements: ##
 1. a brain...
+2. a computer(to make client)
 
 ## How to play BSDS: ##
 1: download server and client
@@ -35,6 +44,15 @@ Second link (fix crash on non-jb device but can't play alongside Brawl Stars, ne
 7: type python Core.py
 
 8: now open the game and play.
+
+""
+## Client features ##
+1. Patched cryptography keys
+2. Enabled emotes use on offline battles
+3. Offline battles enabled everywhere (even friendlies!!)
+4. Lobby Info
+5. Patched HoldToShoot attacking before game starts
+6. prob more but i forgot
 
 ![image](https://user-images.githubusercontent.com/72312877/213475759-20669970-c333-4b10-b7e9-073995d38472.png)
 

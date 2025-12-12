@@ -1,6 +1,12 @@
+from random import choice
 from Classes.ByteStreamHelper import ByteStreamHelper
 from Classes.Packets.PiranhaMessage import PiranhaMessage
-
+from Classes.ChronosTextEntry import ChronosTextEntry
+from Classes.Files.Classes.Characters import Characters
+from Classes.Files.Classes.Skins import Skins
+from Classes.Files.Classes.Cards import Cards
+from Classes.Files.Classes.Emotes import Emotes
+from Classes.Files.Classes.Locations import Locations
 
 class OwnHomeDataMessage(PiranhaMessage):
     def __init__(self, messageData):
@@ -8,321 +14,374 @@ class OwnHomeDataMessage(PiranhaMessage):
         self.messageVersion = 0
 
     def encode(self, fields, player):
+        skins = Skins.getSkinsID()
+        brawlers = Characters.getBrawlersID()
+        brawlersUnlockID = Cards.getBrawlersUnlockID()
+        gadgets = Cards.getGadgetsID()
+        starPowers = Cards.getStarpowersID()
+        emotes = Emotes.getEmotesID()
+        locations = Locations.getAllMaps()
+        self.writeVInt(2018 * 1000 + 0)  # Current Year and Day
+        self.writeVInt(0)  # Time Remaining For Next Day
+        self.writeVInt(player.Trophies)  # Player Trophies
+        self.writeVInt(player.HighestTrophies)  # Player Highest Trophies
+        self.writeVInt(125)  # Player Reached Ranking Trophies
+        self.writeVInt(600)  # trophy road collected
+        self.writeVInt(player.Experience)  # Player Experience Points
+        self.writeDataReference(28, player.Thumbnail)  # Player Profile Icon
+        self.writeDataReference(43, player.Namecolor)  # Player Name Color
 
-        self.writeVInt(-1433793731) #timestamp
-        self.writeVInt(2023064)#timestamp
-        self.writeVInt(52685)#timestamp LogicDailyDataBegin
-        self.writeVInt(52685) #timestamp
-        self.writeVInt(50000) # current trophies
-        self.writeVInt(50000) # hightest trophies
-        self.writeVInt(50000) #highest trophies today
-        self.writeVInt(300) # collected trophy road rewards
-        self.writeVInt(503026) # exp points
-         # profile icon
-        self.writeDataReference(28, 128)
-        # name color
-        self.writeDataReference(43, 1)
+        # Played Game Modes Array
+        self.writeVInt(20)  # Game Modes Count
+        for x in range(20):
+            self.writeVInt(x)  # Played Game Mode
+        # Played Game Modes Array End
 
-        self.writeVInt(26) # played Game Mode
-        for x in range(26):
-            self.writeVInt(x)
-
-        self.writeVInt(0) # selected skin count
-
-        self.writeVInt(0) # available ramdon skins
-
-        self.writeVInt(0) # random skins
-
-        self.writeVInt(0)
-        for x in range(0):
-            self.writeDataReference(29, x) # unlocked skin array
-
-        self.writeVInt(0) # skin purchase option
-
-        self.writeVInt(0) # unk skin array5
-
-        self.writeVInt(0) # leaderboard region
-        self.writeVInt(50000) # highest trophies
-        self.writeVInt(0) # tokens used in battle
-        self.writeVInt(2) # control mode
-        self.writeBoolean(True) # battle hints
-        self.writeVInt(0) # token doubler left
-        self.writeVInt(52684) # trophy league timer
-        self.writeVInt(722284) # power play timer
-        self.writeVInt(56284) # Brawl pass season timer
-
-        self.writeVInt(0) # 
-        self.writeVInt(0) # 
-        self.writeVInt(0) # drop chance of characters in boxes
-        # self.writeVInt(93)
-        # self.writeVInt(206)
-        # self.writeVInt(456)
-        # self.writeVInt(1001)
-        # self.writeVInt(2264)
-
-        self.writeBoolean(True) # false, false, true
-        self.writeVInt(2) # token doubler  new tag state
-        self.writeVInt(2) # event tickets new tag state
-        self.writeVInt(2) # coins pack new tag state
-        self.writeVInt(0) # name change cost
-        self.writeVInt(0) # timer for next name change
-
-        self.writeVInt(0) # shop offers count
-
-        self.writeVInt(20) # tokens for battle
-        self.writeVInt(1428) # timer until new token
-
-        self.writeVInt(0) #count
-
-        self.writeVInt(1) #unk
-        self.writeVInt(30) #unk
-
-        self.writeByte(1) # count brawlers selected
-        self.writeDataReference(16, 67) # selected brawler
-        self.writeString("CA") # location
-        self.writeString("BSDS") # supported creator
-
-        self.writeVInt(0) # resources gained
-        self.writeVInt(0) # count 0
-
-        self.writeVInt(16) # count brawl pass seasons
-        for season in range(16):
-            self.writeVInt(season) # season
-            self.writeVInt(56796) # season token collected
-            self.writeBoolean(True) # 0x1
-            self.writeVInt(56)
-            self.writeBoolean(False) # 0x0
-            self.writeBoolean(True) # 0x1
-            self.writeInt(-4)
-            self.writeInt(16383)
-            self.writeInt(0)
-            self.writeInt(0)
-            self.writeBoolean(True) # 0x1
-            self.writeInt(-4)
-            self.writeInt(2147483647)
-            self.writeInt(0)
-            self.writeInt(0)
-
-        self.writeVInt(0)
-
-        self.writeBoolean(True) # 0x1
-        self.writeVInt(0)
-        self.writeVInt(153826)
-        self.writeVInt(2)
-        self.writeVInt(0) # club league quest count
-
-        self.writeBoolean(True) # Vanity items
-        # self.writeVInt(1)
-        # self.writeVInt(0)
-        # self.writeVInt(0)
-
-
-        self.writeBoolean(False) # Power league season data
-
-        self.writeInt(0)
-        self.writeVInt(502052)
-        self.writeVInt(16)
-        self.writeVInt(11)
-        self.writeBoolean(False) # Logic Daily Data end
-
-        self.writeVInt(2023070) # Logic Conf Data begin
-
-        self.writeVInt(33) # event slot id
-        self.writeVInt(1)
-        self.writeVInt(2)
-        self.writeVInt(3)
-        self.writeVInt(4)
-        self.writeVInt(5)
-        self.writeVInt(6)
-        self.writeVInt(7)
-        self.writeVInt(8)
-        self.writeVInt(9)
-        self.writeVInt(10)
-        self.writeVInt(11)
-        self.writeVInt(12)
-        self.writeVInt(13)
-        self.writeVInt(14)
-        self.writeVInt(15)
-        self.writeVInt(16)
-        self.writeVInt(17)
-        self.writeVInt(18)
-        self.writeVInt(19)
-        self.writeVInt(20)
-        self.writeVInt(21)
-        self.writeVInt(22)
-        self.writeVInt(23)
-        self.writeVInt(24)
-        self.writeVInt(25)
-        self.writeVInt(26)
-        self.writeVInt(27)
-        self.writeVInt(28)
-        self.writeVInt(29)
-        self.writeVInt(30)
-        self.writeVInt(31)
-        self.writeVInt(32)
-        self.writeVInt(33)
-
-        self.writeVInt(0) # event count
-        self.writeVInt(0) # upcoming event count
-       
-        ByteStreamHelper.encodeIntList(self, [20, 35, 75, 140, 290, 480, 800, 1250, 1875, 2800]) # Brawler Upgrade Cost
-        ByteStreamHelper.encodeIntList(self, [20, 50, 140, 280]) # Shop Coins Price
-        ByteStreamHelper.encodeIntList(self, [150, 400, 1200, 2600]) # Shop Coins Amount
-
-        self.writeVInt(0) #locked for chronos
-        for x in range(0):
-            self.writeDataReference(16, 61)
-            self.writeInt(0)
-            self.writeInt(0)
-
-        self.writeVInt(1)
-        self.writeInt(1)
-        self.writeInt(41000064)
-
-
-        self.writeVInt(0) # Timed int entry count
-        # self.writeVInt(31)
-        # self.writeVInt(1)
-        # self.writeVInt(499427)
-        # self.writeVInt(758627)
-        # self.writeVInt(29)
-        # self.writeVInt(24)
-        # self.writeVInt(0)
-        # self.writeVInt(413027)
-        self.writeVInt(0) # custom event
-
-        self.writeVInt(2)
-        self.writeVInt(1)
-        self.writeVInt(2)
-        self.writeVInt(2)
-        self.writeVInt(1)
-        self.writeVInt(-1)
-        self.writeVInt(2)
-        self.writeVInt(1)
-        self.writeVInt(4)
-
-        ByteStreamHelper.encodeIntList(self, [0, 29, 79, 169, 349, 699]) # brawler cost gems ?
-        ByteStreamHelper.encodeIntList(self, [0, 160, 450, 500, 1500, 4500]) # what is that ? looks like chroma price of chromatic brawlers but it doesn't go under 500
-
-        self.writeLong(0, 1) # Player ID
-
-        self.writeVInt(0) # Notification factory
+        # Selected Skins Array
+        print(player.SelectedSkins)
+        self.writeVInt(len(player.SelectedSkins))  # Skins Count
+        for x in player.SelectedSkins.values():
+            self.writeDataReference(29, x)  # Selected Skin
+            
         
-        self.writeVInt(-1)
-        self.writeBoolean(False) # 0x0
-        self.writeVInt(0) # gatcha drop
-        self.writeVInt(0) 
-        self.writeVInt(0)
-        self.writeBoolean(False) # 0x0
-        # new function v46
-        self.writeVInt(0) # new function v46
-        self.writeBoolean(False) # login calendar ?
+        # Selected Skins Array End
 
-        self.writeVInt(0) # new function v48
+        # Unlocked Skins Array
+        self.writeVInt(len(skins))  # Skins Count
+        for x in skins:
+            self.writeDataReference(29, x)  # Unlocked Skin
+        # Unlocked Skins Array End
+        
+        self.writeVInt(len(player.SelectedStarPowers) + len(player.SelectedGadgets))
 
-        self.writeVInt(0) # v48
-        self.writeVInt(0) # v48
-        self.writeVInt(0) # v48
-        self.writeVInt(0) # v48
-        self.writeVInt(0) # v48
-        self.writeBoolean(False)  # v48
-        self.writeBoolean(False)  # v48
-        self.writeBoolean(False)  # v48
-        self.writeBoolean(False)  # v48
-
-        self.writeVInt(0) # end LogicClientHome
-
-        self.writeVLong(0, 1) # player id
-        self.writeVLong(0, 1)
-        self.writeVLong(0, 1)
-        self.writeStringReference("crolie")
-        self.writeBoolean(True) # name set
-        self.writeInt(-1)
-
-        self.writeVInt(17) # commodity count
-        unlocked_brawler = [0, 4, 8, 12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 68, 72, 95, 100, 105, 110, 115, 120, 125, 130, 177, 182, 188, 194, 200, 206, 218, 224, 230, 236, 279, 296, 303, 320, 327, 334, 341, 358, 365, 372, 379, 386, 393, 410, 417, 427, 434, 448, 466, 474, 491, 499, 507, 515, 523, 531, 539, 547, 557]
-        self.writeVInt(len(unlocked_brawler) + 3) # unlocked brawlers + resources
-        for x in unlocked_brawler:
+        for x in list(player.SelectedStarPowers.values()) + list(player.SelectedGadgets.values()):
             self.writeDataReference(23, x)
-            self.writeVInt(-1)
-            self.writeVInt(1)
 
-        self.writeDataReference(5, 8)
-        self.writeVInt(-1)
-        self.writeVInt(1090)
-
-        self.writeDataReference(5, 10)
-        self.writeVInt(-1)
-        self.writeVInt(73)
-
-        self.writeDataReference(5, 13)
-        self.writeVInt(-1)
-        self.writeVInt(22)
-
-
-        self.writeVInt(68) # HeroScore
-        for x in range(68):
-            self.writeDataReference(16, x)
-            self.writeVInt(-1)
-            self.writeVInt(1250)
         
-        self.writeVInt(68)
-        for x in range(68):
-            self.writeDataReference(16, x)
-            self.writeVInt(-1)
+        self.writeVInt(0) # Leaderboard Region
+        self.writeVInt(player.HighestTrophies) # today's highest trophies
+        self.writeVInt(0) # used tokens
+        self.writeVInt(0)
+        self.writeBoolean(True)  # Daily Band Created
+        self.writeVInt(0)  # Remaining Token Doubler
+        self.writeVInt(0)  # Trophy Season Timer
+        self.writeVInt(0) 
+        self.writeVInt(0)  # Brawl Pass Season Timer
+        # Forced Drops Entry
+        self.writeVInt(0)  # Unknown
+        self.writeVInt(0)  # Unknown
+        self.writeVInt(0)  # Unknown array
+        for x in range(0):
+            self.writeVInt(0)
+        # Forced Drops Entry End
+        self.writeBoolean(False)  # Timed Offer Array
+        self.writeBoolean(False) # Timed Offer Array 2
+        self.writeBoolean(True)  # Key Limit Reached
+        self.writeBoolean(False)
+        self.writeVInt(2) # Related To Shop Token Doubler
+        self.writeVInt(2)
+        self.writeVInt(2)
+        self.writeVInt(0) # Name Change Cost
+        self.writeVInt(0) # Name Change Timer
+        self.writeVInt(1) # Shop Offers Array
+        for x in range(1):
+            self.writeVInt(1) # Gem Offers Array
+            for y in range(1):
+                self.writeVInt(1)  # Offer Item ID (0: FREE BOX, 1: COINS, 2: Random Brawler, 3: NEW BRAWLER, 4: NEW SKIN, 5: STAR POWER, 6: BRAWL BOX, 7: TICKETS, 8: POWER POINTS, 9: TOKEN DOUBLER, 10: MEGA BOX, 11: crash (keys?), 12: POWER POINTS (on any brawler), 13: crash (event slot?), 14: BIG BOX, 15: BRAWL BOX, 16: GEMS, 17+: crash (end of ids))
+                self.writeVInt(1)  # Offer Amount
+                self.writeDataReference(0, 0)  # Offer Data Reference
+                self.writeVInt(0)  # Offer Skin ID / Rarity
+            self.writeVInt(0)  # Offer Type (0: gems, 1: coins, 2: watch an ad, 3+: nothing)
+            self.writeVInt(0)  # Offer Cost (if you set to 0 it will be free no matter what currency u put)
+            self.writeVInt(0)  # Offer Timer
             self.writeVInt(1)
-
-        self.writeVInt(0) # Array
-
-        self.writeVInt(68) # HeroPower
-        for x in range(68):
-            self.writeDataReference(16, x)
-            self.writeVInt(-1)
-            self.writeVInt(1)
-        
-        self.writeVInt(68) # HeroLevel
-        for x in range(68):
-            self.writeDataReference(16, x)
-            self.writeVInt(-1)
-            self.writeVInt(10)
-
-        self.writeVInt(0) # hero star power and gadget
-
-        self.writeVInt(68) # HeroSeenState
-        for x in range(68):
-            self.writeDataReference(16, x)
-            self.writeVInt(-1)
+            self.writeVInt(1)   
+            self.writeBoolean(False)  # Offer Purchased
+            self.writeVInt(1) # new vint
+            self.writeBoolean(False)  # Offer Daily
+            self.writeVInt(0)  # Offer Cost Before Reduction
+            ChronosTextEntry().encode(self, [0, "Hiii"])  # Offer Title text
+            self.writeBoolean(False)  # Offer Is Seen
+            self.writeStringReference("offer_legendary")  # Offer Background Image
+            self.writeVInt(0)
+            self.writeBoolean(False)
             self.writeVInt(2)
-
-        self.writeVInt(0) # Array
-        self.writeVInt(0) # Array
-        self.writeVInt(0) # Array
-        self.writeVInt(0) # Array
-        self.writeVInt(0) # Array
-        self.writeVInt(0) # Array
-        self.writeVInt(0) # Array
-        self.writeVInt(0) # Array
-        self.writeVInt(0) # Array
-
-        self.writeVInt(999) # Diamonds
-        self.writeVInt(999) # Free Diamonds
-        self.writeVInt(10) # Player Level
-        self.writeVInt(100)
-        self.writeVInt(0) # CumulativePurchasedDiamonds or Avatar User Level Tier | 10000 < Level Tier = 3 | 1000 < Level Tier = 2 | 0 < Level Tier = 1
-        self.writeVInt(100) # Battle Count
-        self.writeVInt(10) # WinCount
-        self.writeVInt(80) # LoseCount
-        self.writeVInt(50) # WinLooseStreak
-        self.writeVInt(20) # NpcWinCount
-        self.writeVInt(0) # NpcLoseCount
-        self.writeVInt(2) # TutorialState | shouldGoToFirstTutorialBattle = State == 0
-        self.writeVInt(12)
+            self.writeVInt(0)
         self.writeVInt(0)
+        self.writeVInt(200) # Battle Tokens
+        self.writeVInt(0) # Time Till Next Battle Token
         self.writeVInt(0)
-        self.writeString()
+        self.writeVInt(6969) # Tickets
         self.writeVInt(0)
-        self.writeVInt(0)
+        self.writeDataReference(16,player.SelectedBrawler) # selected brawler
+        self.writeString(player.Region) # Location
+        self.writeString(player.ContentCreator) # Supporter Creator Code
+        self.writeVInt(5) # Int Value Entry
+        
+        self.writeInt(3)
+        self.writeInt(0) # Tokens Rewarded
+        
+        self.writeInt(4)
+        self.writeInt(0) # Trophies Rewarded
+        
+        self.writeInt(7)
+        self.writeInt(0) # Do Not Disturb
+        
+        self.writeInt(8)
+        self.writeInt(0) # Star Points Rewarded
+        
+        self.writeInt(10)
+        self.writeInt(0) # Power Play Trophies Rewarded
+        
+        self.writeVInt(0) # CoolDown Entry
+        for x in range(0):
+            self.writeVInt(0)
+            self.writeDataReference(16, 0)
+            self.writeVInt(0)
+            
+        self.writeVInt(1) # BP
+        for x in range(1):
+            self.writeVInt(2) # season ID
+            self.writeVInt(0) # season progress
+            self.writeBoolean(True) # has brawl pass
+            self.writeVInt(0) # season rewards claimed
+            self.writeBoolean(False)
+            self.writeBoolean(False)
+            
+        self.writeVInt(1) # ProLeagueSeasonData Array
+        for x in range(1):
+            self.writeVInt(2)
+            self.writeVInt(0) # Points
+            
+        self.writeBoolean(True) # Quest Array
         self.writeVInt(1)
+        for x in range(1):
+            self.writeVInt(0) # Unk
+            self.writeVInt(2) # Season
+            self.writeVInt(0) # Type
+            self.writeVInt(30) # Progress
+            self.writeVInt(69) # Goal
+            self.writeVInt(2000) # Reward
+            self.writeVInt(0)
+            self.writeVInt(0) # Current Level (for event)
+            self.writeVInt(0) # Max Level
+            self.writeVInt(0) # Expiration Timer
+            self.writeBoolean(False) # IsBrawlPassExclusive
+            self.writeBoolean(False) # Seen
+            self.writeDataReference(16,0) # Targetted Char
+            self.writeVInt(0) # Targetted Gamemode
+            self.writeVInt(0) # Progrress..?
+            self.writeVInt(0)
+            
+        self.writeBoolean(True)
+        self.writeVInt(len(emotes)) # Emotes Array
+        for x in emotes:
+            self.writeDataReference(52, x)
+            self.writeVInt(0)
+        # Shop Offers Array End
+        # Logic Daily Data End
+
+        # Logic Conf Data
+        self.writeVInt(2018 * 1000 + 0)  # Shop Current Year and Day
+        self.writeVInt(100)  # Brawl Box Keys
+        self.writeVInt(10)  # Shop Brawl Box Cost
+        self.writeVInt(80)  # Shop Big Box Cost
+        self.writeVInt(10)  # Shop Big Box Multipler
+        self.writeVInt(50)  # Key Doubler Cost
+        self.writeVInt(1000)  # Key Doubler Ammount
+        self.writeVInt(500)  # Minimum Brawler Trophies For Season Reset
+        self.writeVInt(50)  # Brawler Trophy Loss Percentage in Season Reset
+        self.writeVInt(999900)  # Key Limit Amount
+        self.writeVInt(0)
+        self.writeVInt(0)
+        ByteStreamHelper.encodeIntList(self, [0, 30, 80, 170, 350, 0])  # Boxes With Guaranteed Brawlers Cost
+
+        # Event Slots Array
+        self.writeVInt(100)  # Event Slots Count (1 : gem grab, 2: showdown, 3: daily events, 4: team events, 5: duo showdown, 6: team events, 7: special events, 8: solo events, 9: power play, 21: challenge)
+        for x in range(100):
+            self.writeVInt(x + 1)  # Event Index
+        # Event Slots Array End
+
+        # Logic Events Array
+        EventLocation = [choice(locations), choice(locations), choice(locations), choice(locations), choice(locations), choice(locations), choice(locations)]
+        self.writeVInt(len(EventLocation))  # Event Slots Count
+        for x in range(len(EventLocation)):
+            self.writeVInt(0) # Event Index
+            self.writeVInt(x + 1)  # Event Index
+            self.writeVInt(0)  # New Event Timer
+            self.writeVInt(0)  # Event Timer
+            self.writeVInt(10)  # New Event Keys
+            self.writeDataReference(15, EventLocation[x])  # Location ID
+            self.writeBoolean(False)  # Is Event Active
+            self.writeBoolean(False)  # Is Event New
+            self.writeString()  # Event Custom Entry
+            self.writeVInt(0)  # Event Tickets Amount
+            self.writeVInt(0) # Power Play Games Played
+            self.writeVInt(3) # Power Play Games Left
+            modifiers = []#[1,2,3,5]*50 + [4]*3
+            self.writeVInt(len(modifiers)) # modifiers array
+            for x in modifiers:
+                self.writeVInt(x)
+            self.writeVInt(0) 
+            self.writeVInt(0)
+        # Logic Events Array End
+
+        # Coming Up Events Array
+        EventLocation = []
+        self.writeVInt(len(EventLocation))  # Event Slots Count
+        for x in range(len(EventLocation)):
+            self.writeVInt(0) # Event Index
+            self.writeVInt(x + 1)  # Event Index
+            self.writeVInt(0)  # New Event Timer
+            self.writeVInt(0)  # Event Timer
+            self.writeVInt(10)  # New Event Keys
+            self.writeDataReference(15, x)  # Location ID
+            self.writeBoolean(False)  # Is Event Active
+            self.writeBoolean(False)  # Is Event New
+            self.writeString()  # Event Custom Entry
+            self.writeVInt(0)  # Event Tickets Amount
+            self.writeVInt(0) # Power Play Games Played
+            self.writeVInt(3) # Power Play Games Left
+            modifiers = []#[1,2,3,5]*50 + [4]*3
+            self.writeVInt(len(modifiers)) # modifiers array
+            for x in modifiers:
+                self.writeVInt(x)
+            self.writeVInt(0) 
+            self.writeVInt(0)
+        # Coming Up Events Array End
+
+        ByteStreamHelper.encodeIntList(self, [20, 35, 75, 140, 290, 480, 800, 1250])  # Brawler Coins Upgrade Cost
+        ByteStreamHelper.encodeIntList(self, [1, 2, 3, 4, 5, 10, 15, 20])  # Highstakes Rewards
+        ByteStreamHelper.encodeIntList(self, [10, 30, 80])  # Event Tickets Cost
+        ByteStreamHelper.encodeIntList(self, [6, 20, 60])  # Event Tickets Amount
+        ByteStreamHelper.encodeIntList(self, [20, 50, 140])  # Coin Packs Cost
+        ByteStreamHelper.encodeIntList(self, [150, 400, 1200])  # Coin Packs Amount
+
+        self.writeVInt(2)  # ?
+        
+        self.writeVInt(200)  # Max Battle Tokens
+        self.writeVInt(20)  # Battle Tokens Refresh Amount
+        self.writeVInt(0)  # ?
+        self.writeVInt(10)  # ?
+        self.writeVInt(5)  # ?
+        self.writeBoolean(False)
+        self.writeBoolean(False)
+        self.writeBoolean(False)
+        
+        self.writeVInt(0)  # ?
+        self.writeVInt(0)  # ?
+        self.writeBoolean(True) # Boxes Enabled In Shop
+        
+        self.writeVInt(0)  # ?
+        self.writeVInt(1)  # IntValue Entry
+        self.writeInt(1)
+        self.writeInt(41000001) # Theme ID
+        
+        # Logic Conf Data End
+        
+        self.writeVInt(0)
+        self.writeVInt(0)
+        self.writeLong(*player.ID)  # Home ID
+
+        self.writeVInt(0)  # Notification Factory
+        
+        self.writeVInt(0)  # ?
+        self.writeBoolean(False)
+        
+        self.writeVInt(0)  # ?
+        self.writeVInt(0)  # ?
+        # Logic Client Home End
+
+        # Logic Client Avatar
+        self.writeVLong(*player.ID)  # ID
+        self.writeVLong(0, 0)  # Account ID
+        self.writeVLong(0, 0)  # Home ID
+        self.writeString(player.Name)  # Player Name
+        self.writeBoolean(player.Registered)  # Registered Name State
+        self.writeInt(-1)
+        self.writeVInt(8)  # Commodity Count
+
+        # Unlocked Brawler and Resources Array
+
+        self.writeVInt(len(brawlersUnlockID)+5)#heroesLength + 5)  # Items Count
+        for hero in brawlersUnlockID:
+            self.writeDataReference(23, hero)#hero["u"])  # Item ID
+            self.writeVInt(1)  # Item Data
+
+        self.writeDataReference(5, 1)  # Resource ID
+        self.writeVInt(100)  # Keys Amount
+        self.writeDataReference(5, 5)  # Resource ID
+        self.writeVInt(0)  # Chips Amount
+        self.writeDataReference(5, 6)  # Resource ID
+        self.writeVInt(0)  # Elixir Amount
+        self.writeDataReference(5, 7)  # Resource ID
+        self.writeVInt(0)  # Upgrade Tokens Amount
+        self.writeDataReference(5, 8)  # Resource ID
+        self.writeVInt(100000)  # Coins Amount
+        # Unlocked Brawlers and Resources Array End
+
+        # Brawlers Trophies Array
+        self.writeVInt(len(brawlers))  # Brawlers Count
+        for x in brawlers:
+            self.writeDataReference(16, x)  # Brawler ID
+            self.writeVInt(1250)  # Brawler Trophies
+        # Brawlers Trophies Array End
+
+        # Brawlers Highest Trophies Array
+        self.writeVInt(len(brawlers))  # Brawlers Count
+        for x in brawlers:
+            self.writeDataReference(16, x)  # Brawler ID
+            self.writeVInt(1250)  # Brawler Highest Trophies
+        # Brawlers Highest Trophies Array End
+
+        # Highest Resources Amount Array
+        self.writeVInt(0)  # Resources Count
+        for x in range(0):
+            self.writeDataReference(5, 0)  # Resource ID
+            self.writeVInt(0)  # Resource Amount
+        # Highest Resources Amount Array End
+
+        # Brawlers Power Points Array
+        self.writeVInt(0)  # Brawlers Count
+        for x in range(0):
+            self.writeDataReference(16, 0)  # Brawler ID
+            self.writeVInt(0)  # Brawler Power Points Amount
+        # Brawlers Power Points Array End
+
+        # Brawlers Level Array
+        self.writeVInt(len(brawlers))  # Brawlers Count
+        for x in brawlers:
+            self.writeDataReference(16, x)  # Brawler ID
+            self.writeVInt(8)  # Brawler Power Level
+        # Brawlers Level Array End
+
+        # Brawlers Star Power Array
+        self.writeVInt(len(starPowers) + len(gadgets))  # Items Count
+        for x in starPowers + gadgets:
+            self.writeDataReference(23, x)  # Item ID
+            self.writeVInt(1)  # Item Data possibly state
+        # Brawlers Star Power Array End
+
+        # Brawlers Seem State Array
+        self.writeVInt(len(brawlers))  # Brawlers Count
+        for x in brawlers:
+            self.writeDataReference(16, 0)  # Brawler ID
+            self.writeVInt(0)  # Brawler Seem State
+        # Brawlers Seem State Array End
+
+        self.writeVInt(100000)  # Player Gems
+        self.writeVInt(0)  # Player Free Gems
+        self.writeVInt(1)  # Player Experience Level
+        self.writeVInt(0)  # Cumulative Purchased Gems
+        self.writeVInt(0)  # Battles Count
+        self.writeVInt(0)  # Win Count
+        self.writeVInt(0)  # Lose Count
+        self.writeVInt(0)  # Win/Loose Streak
+        self.writeVInt(0)  # Npc Win Count
+        self.writeVInt(0)  # Npc Lose Count
+        self.writeVInt(2)  # Tutorial State
+        # Logic Client Avatar End
+        self.writeVInt(2)  # Current Time
 
         
 

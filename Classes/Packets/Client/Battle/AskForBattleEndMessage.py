@@ -1,5 +1,5 @@
 from Classes.Messaging import Messaging
-
+from Classes.Files.Classes.Locations import Locations
 from Classes.Packets.PiranhaMessage import PiranhaMessage
 
 
@@ -17,6 +17,7 @@ class AskForBattleEndMessage(PiranhaMessage):
         fields["Result"] = self.readVInt()
         fields["Rank"] = self.readVInt()
         fields["MapID"] = self.readDataReference()
+        fields["GameMode"] = Locations.getGamemodeVariation(fields["MapID"][1])
         fields["HeroesCount"] = self.readVInt()
         fields["Heroes"] = []
         for i in range(fields["HeroesCount"]): fields["Heroes"].append({"Brawler": {"ID": self.readDataReference(), "SkinID": self.readDataReference()}, "Team": self.readVInt(), "IsPlayer": self.readBoolean(), "PlayerName": self.readString()})

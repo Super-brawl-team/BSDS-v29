@@ -1,7 +1,7 @@
 from Classes.Messaging import Messaging
 
 from Classes.Packets.PiranhaMessage import PiranhaMessage
-
+from Classes.ClientsManager import ClientsManager
 
 class LoginMessage(PiranhaMessage):
     def __init__(self, messageData):
@@ -45,10 +45,12 @@ class LoginMessage(PiranhaMessage):
         return fields
 
     def execute(message, calling_instance, fields, cryptoInit):
-        pass
+        if fields["ClientMajor"] != 29:
+            Messaging.sendMessage(20103, {"Socket": calling_instance.client, "ErrorID": 16, "FingerprintData": "{}", "ContentURL": "https://google.cat", "Message": "Unsupported client version"}, cryptoInit)
+            return
         calling_instance.player.ClientVersion = f'{str(fields["ClientMajor"])}.{str(fields["ClientBuild"])}.{str(fields["ClientMinor"])}'
         fields["Socket"] = calling_instance.client
-        # ClientsManager.AddPlayer(calling_instance.player.ID, calling_instance.client)
+        ClientsManager.AddPlayer(calling_instance.player.ID, calling_instance.client)
         Messaging.sendMessage(20104, fields, cryptoInit, calling_instance.player)
         Messaging.sendMessage(24101, fields, cryptoInit, calling_instance.player)
         Messaging.sendMessage(24399, fields, cryptoInit, calling_instance.player)

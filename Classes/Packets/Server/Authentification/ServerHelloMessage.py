@@ -6,9 +6,11 @@ class ServerHelloMessage(PiranhaMessage):
     def __init__(self, messageData):
         super().__init__(messageData)
         self.messageVersion = 0
+        self.sessionKey = None
 
     def encode(self, fields):
-        self.writeBytes(urandom(24), 24)
+        self.sessionKey = urandom(24)
+        self.writeBytes(self.sessionKey, 24)
 
     def decode(self):
         fields = {}
@@ -24,3 +26,6 @@ class ServerHelloMessage(PiranhaMessage):
 
     def getMessageVersion(self):
         return self.messageVersion
+    
+    def getSessionKey(self):
+        return self.sessionKey

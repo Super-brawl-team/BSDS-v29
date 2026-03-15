@@ -8,7 +8,7 @@ Link : https://www.mediafire.com/file/6ivvvh25gmdxjhy/BSDS-29.ipa/file
 READ THIS PLEASE I BEG YOU, to make the client connect to server BEFORE INSTALLING IT you need to 
 1. extract the ipa (rename .ipa to .zip)
 2. use https://github.com/Mimi8298/Supercell.ArxanUnprotector to decrypt the "Brawl Stars" file (you need a PC sorry) 
-3. with an hex editor replace "198.164.1.184" to you own ip
+3. with an hex editor replace "192.168.1.184" to you own ip
 4. then encrypt it back
 5. update checksums (do not ask and read the readme of arxan unprotector please)
 6. compress the payload folder,

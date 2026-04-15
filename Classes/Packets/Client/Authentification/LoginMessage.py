@@ -78,6 +78,12 @@ class LoginMessage(PiranhaMessage):
         calling_instance.player.ClientVersion = f'{str(message.clientMajor)}.{str(message.clientBuild)}.{str(message.clientMinor)}'
         #lastConnectionDay = daylight TODO convert to day to restart the stuff
         ClientsManager.AddPlayer(calling_instance.player.ID, calling_instance.client)
+        if calling_instance.player.bannedTimer > int(time()):
+            loginFailedMessage = LoginFailedMessage(b'')
+            loginFailedMessage.setErrorID(11)
+            loginFailedMessage.setReason(f"You are banned until {Utility.getTime(calling_instance.player.bannedTimer)}")
+            Messaging.sendMessage(loginFailedMessage,calling_instance.client, cryptoInit)
+            return
         loginOkMessage = LoginOkMessage(b'')
         Messaging.sendMessage(loginOkMessage, calling_instance.client, cryptoInit, calling_instance)
         ownHomeDataMessage = OwnHomeDataMessage(b'')

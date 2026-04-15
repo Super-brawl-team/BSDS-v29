@@ -271,7 +271,7 @@ class OwnHomeDataMessage(PiranhaMessage):
         self.writeVInt(690)  # ?
         self.writeVInt(10)  # ?
         self.writeVInt(5)  # ?
-        self.writeBoolean(True) # enable all event slots (no need trophy road)
+        self.writeBoolean(config.unlockedAllEvents) # enable all event slots (no need trophy road)
         self.writeBoolean(False)
         self.writeBoolean(False)
         

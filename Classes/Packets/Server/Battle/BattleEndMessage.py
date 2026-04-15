@@ -37,17 +37,18 @@ class BattleEndMessage(PiranhaMessage):
             elif gamemodetype in [3,4,6]:
                 starTokens += 1
                 win=True
-        completed = []
-        for index, Quest in player.Quests.items():
-            if self.heroes[0]["Brawler"]["ID"][0] == Quest["Target"] or self.gamemode == Quest["TargetGamemode"]:
-                starTokens+=1
-                completedQuest=True
-                Quest["Progress"]+=1
-                if Quest["Progress"]>=Quest["Goal"]:
-                    completed.append(index)
-        for x in completed:
-            player.Quests.pop(x)
-        calling_instance.db.replaceValue("Quests", player.Quests, player)
+        if calling_instance.serverConnection.config.brawlPassEnabled and win:
+            completed = []
+            for index, Quest in player.Quests.items():
+                if self.heroes[0]["Brawler"]["ID"][1] == Quest["Target"] or self.gamemode == Quest["TargetGamemode"]:
+                    starTokens+=1
+                    completedQuest=True
+                    Quest["Progress"]+=1
+                    if Quest["Progress"]>=Quest["Goal"]:
+                        completed.append(index)
+            for x in completed:
+                player.Quests.pop(x)
+            calling_instance.db.replaceValue("Quests", player.Quests, player)
         exp = BattleEndManager.getExperienceBalance(gamemodetype, self.rank,time, player.selectedTickets)
         tokens = BattleEndManager.getTokensBalance(gamemodetype, self.rank,time, player.selectedTickets)
         self.writeVInt(gamemodetype) # Battle End Game Mode (gametype)

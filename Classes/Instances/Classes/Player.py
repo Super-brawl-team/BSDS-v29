@@ -14,6 +14,7 @@ class Player:
     Thumbnail = 0
     NameColor = 0
     ticketEventTime = 0
+    bannedTimer = 0
     Region = "CAT"
     ContentCreator = "BSDS-v26"
     AllianceID = [0,1]

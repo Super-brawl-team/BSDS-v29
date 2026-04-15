@@ -1,7 +1,7 @@
 import traceback
 from Classes.Logic.LogicLaserMessageFactory import LogicLaserMessageFactory
 from Classes.Messaging import Messaging
-
+from Classes.Packets.Server.Home.LobbyInfoMessage import LobbyInfoMessage
 
 class MessageManager:
     def receiveMessage(self, messageType, messagePayload, cryptoInit):
@@ -11,10 +11,11 @@ class MessageManager:
                 if message.isServerToClient():
                     message.encode()
                 else:
-                    message.fields = message.decode()
-                    message.execute(self, message.fields, cryptoInit)
+                    message.decode()
+                    message.execute(self, cryptoInit)
 
             except Exception:
                 print(traceback.format_exc())
         if messageType > 10100:
-            Messaging.sendMessage(23457, {"Socket": self.client}, cryptoInit, self.player)
+            lobbyInfoMessage = LobbyInfoMessage(b'')
+            Messaging.sendMessage(lobbyInfoMessage, self.client, cryptoInit, self)

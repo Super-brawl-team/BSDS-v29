@@ -6,7 +6,8 @@ class MyAllianceMessage(PiranhaMessage):
         super().__init__(messageData)
         self.messageVersion = 0
 
-    def encode(self, fields, player):
+    def encode(self, calling_instance):
+        player = calling_instance.player
         self.writeVInt(1) # Online people in alliance
         self.writeBoolean(True) # isInAlliance
         self.writeDataReference(25, 4)
@@ -23,11 +24,9 @@ class MyAllianceMessage(PiranhaMessage):
         self.writeBoolean(True) # isFamilyFriendly
 
     def decode(self):
-        fields = {}
-        super().decode(fields)
-        return {}
+        return self
 
-    def execute(message, calling_instance, fields):
+    def execute(message, calling_instance):
         pass
 
     def getMessageType(self):

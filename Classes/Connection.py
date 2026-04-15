@@ -6,12 +6,14 @@ from Classes.ClientsManager import ClientsManager
 from Classes.Instances.Classes.Player import Player
 from Classes.MessageManager import MessageManager
 from Classes.Messaging import Messaging
-from Classes.Crypto import Crypto
 
 
 class Connection(threading.Thread):
-    def __init__(self, socket, address):
+    def __init__(self, serverConnection, socket, address):
         super().__init__()
+        self.db = serverConnection.db
+        self.config = serverConnection.config
+        self.serverConnection = serverConnection
         self.client = socket
         self.address = address
         self.player = Player()
@@ -27,7 +29,6 @@ class Connection(threading.Thread):
         return data
 
     def run(self):
-        cryptoInit = Crypto()
         try:
             while True:
                 time.sleep(0.001)
@@ -37,12 +38,13 @@ class Connection(threading.Thread):
                     self.timeout = time.time()
                     packetPayload = Connection.recv(self, headerData[1])
                     packetID = headerData[0]
-                    packetPayload = cryptoInit.decryptClient(packetID, bytes(packetPayload))
                     # print("Received", packetID, LogicLaserMessageFactory.getMessageName(packetID), "length", headerData[1], "data", packetPayload, '\n')
-                    MessageManager.receiveMessage(self, packetID, packetPayload, cryptoInit)
+                    MessageManager.receiveMessage(self, packetID, packetPayload, None)
 
                 if time.time() - self.timeout > 7:
                     print(f"Client with ip: {self.address} disconnected!")
+                    self.player.lastConnected=time.time()
+                    self.db.replaceValue("lastConnected", self.player.lastConnected,self.player)
                     allSockets = ClientsManager.GetAll()
                     if self.player.ID[1] in allSockets.keys() and allSockets[self.player.ID[1]]["Socket"] == self.client:
                         ClientsManager.RemovePlayer(self.player.ID)
@@ -51,6 +53,8 @@ class Connection(threading.Thread):
 
         except ConnectionError:
             print(f"Client with ip: {self.address} disconnected!")
+            self.player.lastConnected=time.time()
+            self.db.replaceValue("lastConnected", self.player.lastConnected,self.player)
             allSockets = ClientsManager.GetAll()
             if self.player.ID[1] in allSockets.keys() and allSockets[self.player.ID[1]]["Socket"] == self.client:
                 ClientsManager.RemovePlayer(self.player.ID)

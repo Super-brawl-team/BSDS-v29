@@ -1,17 +1,17 @@
 import Configuration
 from Classes.ByteStream import ByteStream
-from Classes.Utility import Utility
 
 
 class PiranhaMessage(ByteStream):
     def __init__(self, messageData):
         super().__init__(messageData)
         self.messageBuffer = messageData
-        self.fields = {}
 
-    def decode(self, fields):
-        if Configuration.settings['PrintEnabled']:
-            Utility.parseFields(fields)
+    def decode(self):
+        pass
+    
+    def encode(self):
+        pass
 
     def getLength(self):
         return len(self.messageBuffer)

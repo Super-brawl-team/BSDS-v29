@@ -13,10 +13,25 @@ class Locations:
                 else:
                     if row[0] == "":
                         continue
-                    if Locations.getGamemodeVariation(line_count - 2)!= "Tutorial":
-                        line_count += 1
                     if row[1].lower() != 'true':
                             Maps.append(line_count - 2)
+                    line_count += 1
+            return Maps
+        
+    def getAllMapsWithGamemodes(gamemodesID):
+        Maps = []
+        with open('Classes/Files/assets/csv_logic/locations.csv', encoding="utf8") as csv_file:
+            csv_reader = csv.reader(csv_file, delimiter=',')
+            line_count = 0
+            for row in csv_reader:
+                if line_count == 0 or line_count == 1:
+                    line_count += 1
+                else:
+                    if row[0] == "":
+                        continue
+                    if row[1].lower() != 'true' and Locations.getGamemodeID(row[10]) in gamemodesID:
+                            Maps.append(line_count - 2)
+                    line_count += 1
             return Maps
         
     def getGamemodeVariation(ID):
@@ -71,8 +86,6 @@ class Locations:
             return 16
         elif gamemodeVariation == "KingOfHill":
             return 17
-        elif gamemodeVariation == "Raid_TownCrush":
-            return 18
         else:
             print("Wrong game mode!")
             return -1

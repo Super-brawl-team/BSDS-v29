@@ -5,40 +5,54 @@ import string
 
 class Player:
     ClientVersion = "0.0.0"
-
+    GainedRessources = {}
+    lastConnected=0
     ID = [0, 1]
     Registered = False
     Token = ""
     Name = "Brawler"
-    Registered = False
     Thumbnail = 0
-    Namecolor = 0
+    NameColor = 0
+    ticketEventTime = 0
     Region = "CAT"
-    ContentCreator = "BSDS-v29"
+    ContentCreator = "BSDS-v26"
+    AllianceID = [0,1]
     TeamID = [0,0]
-
-    Coins = 999999
+    selectedTickets = 0
+    isInPowerPlay = False
+    Coins = 0
+    TokensLeft = 200
+    InvitesBlocked = False
+    ChatMuted = False
+    AskAge = False
+    DisableNotifs = False
     TeamStarPower = 0
     TeamGadget = 0
+    LegendaryTrophies = 0
     SelectedStarPowers = {}
     SelectedGadgets = {}
-    Gems = 999999
-    StarPoints = 999999
-    Trophies = 999999
-    HighestTrophies = 999999
-    TrophyRoadTier = 105
-    Experience = 999999
+    powerPlayGamesLeft = 3
+    Gems = 0
+    isInRealGame = False
+    StarPoints = 0
+    Trophies = 0
+    HighestTrophies = 0
+    Tickets = 0
+    BrawlPassDatas = {"0": {"FreePassTier": 1, "PaidPassTier": 1, "Progress": 0, "PassPurchased": True}, "1": {"FreePassTier": 1, "PaidPassTier": 1, "Progress": 0, "PassPurchased": True}}
+    Quests = {"0": {"Season": 1, "Type": 0, "Progress": 0, "Goal": 10, "Reward":1, "BrawlPassExclusive": False, "Seen": False, "Target": 0, "TargetGamemode": 0}}
+    TrophyRoadTier = 1
+    Experience = 0
     Level = 500
-    Tokens = 200
+    Tokens = 0
+    StarTokens = 0
     TokensDoubler = 1000
     
     SelectedMap = 0
     SelectedSkins = {}
     SelectedBrawler = 0
-    OwnedPins = [0]
     OwnedThumbnails = []
     OwnedBrawlers = {
-        0: {'CardID': 0, 'Skins': [29, 52], 'Trophies': 0, 'HighestTrophies': 0, 'PowerLevel': 1, 'PowerPoints': 0, 'State': 2}
+        0: {'CardID': 0, 'Skins': [29, 52], 'Trophies': 0, 'HighestTrophies': 0, 'PowerLevel': 1, 'PowerPoints': 0, 'State': 2, 'Gadgets': [], 'StarPowers': []}
     }
 
     def __init__(self):
@@ -74,7 +88,6 @@ class Player:
             'Tokens': self.Tokens,
             'TokensDoubler': self.TokensDoubler,
             'SelectedBrawler': self.SelectedBrawler,
-            'OwnedPins': self.OwnedPins,
             'OwnedThumbnails': self.OwnedThumbnails,
             'OwnedBrawlers': self.OwnedBrawlers
         }
@@ -83,3 +96,7 @@ class Player:
     def toJSON(self):
         return json.loads(json.dumps(self, default=lambda o: o.__dict__,
             sort_keys=True, indent=4))
+        
+    def fromJSON(self, jsonData):
+        for key,data in jsonData.items():
+            setattr(self, key, data)

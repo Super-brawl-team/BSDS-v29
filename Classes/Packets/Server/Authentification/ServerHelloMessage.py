@@ -8,17 +8,15 @@ class ServerHelloMessage(PiranhaMessage):
         self.messageVersion = 0
         self.sessionKey = None
 
-    def encode(self, fields):
+    def encode(self):
         self.sessionKey = urandom(24)
         self.writeBytes(self.sessionKey, 24)
 
     def decode(self):
-        fields = {}
-        fields["Random"] = self.readBytesWithoutLength()
-        super().decode(fields)
-        return fields
+        self.sessionKey = self.readBytesWithoutLength()
+        return self
 
-    def execute(message, calling_instance, fields):
+    def execute(message, calling_instance):
         pass
 
     def getMessageType(self):

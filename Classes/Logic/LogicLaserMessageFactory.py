@@ -1,6 +1,13 @@
 from Classes.Packets.Client.Authentification.ClientHelloMessage import ClientHelloMessage
 from Classes.Packets.Client.Authentification.LoginMessage import LoginMessage
+from Classes.Packets.Client.Battle.CancelMatchmakingMessage import CancelMatchmakingMessage
+from Classes.Packets.Client.Battle.MatchmakeRequestMessage import MatchmakeRequestMessage
+from Classes.Packets.Client.Battle.PlayAgainMessage import PlayAgainMessage
 from Classes.Packets.Client.Battle.AskForBattleEndMessage import AskForBattleEndMessage
+from Classes.Packets.Client.Home.GetLeaderboardMessage import GetLeaderboardMessage
+from Classes.Packets.Client.Home.GetSeasonRewardsMessage import GetSeasonRewardsMessage
+from Classes.Packets.Client.Home.ListBrawlTvChannelsMessage import ListBrawlTvChannelsMessage
+from Classes.Packets.Client.Home.TeamChatMessage import TeamChatMessage
 from Classes.Packets.Client.Home.TeamLeaveMessage import TeamLeaveMessage
 from Classes.Packets.Client.Home.ChangeAvatarNameMessage import ChangeAvatarNameMessage
 from Classes.Packets.Client.Home.EndClientTurnMessage import EndClientTurnMessage
@@ -8,12 +15,18 @@ from Classes.Packets.Client.Home.GoHomeFromOfflinePractiseMessage import GoHomeF
 from Classes.Packets.Client.Home.GoHomeMessage import GoHomeMessage
 from Classes.Packets.Client.Home.GetPlayerProfileMessage import GetPlayerProfileMessage
 from Classes.Packets.Client.Home.AskForAllianceDataMessage import AskForAllianceDataMessage
+from Classes.Packets.Client.Home.TuneBrawlTvChannelMessage import TuneBrawlTvChannelMessage
 from Classes.Packets.Client.Socket.KeepAliveMessage import KeepAliveMessage
 from Classes.Packets.Server.Authentification.LoginFailedMessage import LoginFailedMessage
 from Classes.Packets.Server.Authentification.LoginOkMessage import LoginOkMessage
 from Classes.Packets.Server.Authentification.OutOfSyncMessage import OutOfSyncMessage
 from Classes.Packets.Server.Authentification.ServerHelloMessage import ServerHelloMessage
 from Classes.Packets.Server.Battle.BattleEndMessage import BattleEndMessage
+from Classes.Packets.Server.Battle.MatchMakingCancelledMessage import MatchMakingCancelledMessage
+from Classes.Packets.Server.Battle.MatchMakingStatusMessage import MatchMakingStatusMessage
+from Classes.Packets.Server.Home.LeaderboardMessage import LeaderboardMessage
+from Classes.Packets.Server.Home.BrawlTvChannelListMessage import BrawlTvChannelListMessage
+from Classes.Packets.Server.Home.SeasonRewardsMessage import SeasonRewardsMessage
 from Classes.Packets.Server.Home.AvailableServerCommandMessage import AvailableServerCommandMessage
 from Classes.Packets.Server.Home.LobbyInfoMessage import LobbyInfoMessage
 from Classes.Packets.Server.Home.OwnHomeDataMessage import OwnHomeDataMessage
@@ -96,10 +109,10 @@ class LogicLaserMessageFactory:
         13922: 'AcceptTokenFriendMessage',
         14101: GoHomeMessage,
         14102: EndClientTurnMessage,
-        14103: 'StartGameMessage',
+        14103: MatchmakeRequestMessage, # and StartGameMessage
         14104: 'StartSpectateMessage',
         14105: 'HomeLogicStoppedMessage',
-        14106: 'CancelMatchmakingMessage',
+        14106: CancelMatchmakingMessage,
         14107: 'StopSpectateMessage',
         14108: 'GoHomeFromSpectateMessage',
         14109: GoHomeFromOfflinePractiseMessage,
@@ -112,7 +125,7 @@ class LogicLaserMessageFactory:
         14118: 'SinglePlayerMatchRequestMessage',
         14166: 'ChronosEventSeenMessage',
         14167: 'ChronosEventSeenMessage',
-        14177: 'PlayAgainMessage',
+        14177: PlayAgainMessage,
         14178: 'DebugCommandMessage',
         14199: 'LookForGameRoomRequestMessage',
         14211: 'UnbindFacebookAccountMessage',
@@ -126,7 +139,7 @@ class LogicLaserMessageFactory:
         14266: 'BindTencentAccountMessage',
         14268: 'TencentCheckCanPayMessage',
         14276: 'TencentAntiAddictionInstructionExecutedMessage',
-        14277: 'GetSeasonRewardsMessage',
+        14277: GetSeasonRewardsMessage,
         14299: 'SetAllianceCountryMessage',
         14301: 'CreateAllianceMessage',
         14302: AskForAllianceDataMessage,
@@ -154,7 +167,7 @@ class LogicLaserMessageFactory:
         14356: 'TeamTogglePractiseMessage',
         14357: 'TeamToggleMemberSideMessage',
         14358: 'TeamSpectateMessage',
-        14359: 'TeamChatMessage',
+        14359: TeamChatMessage,
         14360: 'TeamPostAdMessage',
         14361: 'TeamMemberStatusMessage',
         14362: 'TeamSetEventMessage',
@@ -169,15 +182,15 @@ class LogicLaserMessageFactory:
         14371: 'TeamJoinOrCreateGameRoomMessage',
         14372: 'TeamToggleSettingsMessage',
         14373: 'TeamBotSlotDisableMessage',
-        14403: 'GetLeaderboardMessage',
+        14403: GetLeaderboardMessage,
         14405: 'AskForAvatarStreamMessage',
         14406: 'AskForBattleReplayStreamMessage',
         14418: 'RemoveAvatarStreamEntryMessage',
         14469: 'AlliancePremadeChatMessage',
         14479: 'TeamInvitationResponseMessage',
         14600: 'AvatarNameCheckRequestMessage',
-        14700: 'ListBrawlTvChannelsMessage',
-        14701: 'TuneBrawlTvChannelMessage',
+        14700: ListBrawlTvChannelsMessage,
+        14701: TuneBrawlTvChannelMessage,
         14715: 'SendGlobalChatLineMessage',
         14777: 'SetInvitesBlockedMessage',
         14778: 'SetTeamChatMutedMessage',
@@ -232,8 +245,8 @@ class LogicLaserMessageFactory:
         20207: 'AllianceOnlineStatusUpdatedMessage',
         20300: 'AvatarNameCheckResponseMessage',
         20402: 'CreateGameFailedMessage',
-        20405: 'MatchMakingStatusMessage',
-        20406: 'MatchMakingCancelledMessage',
+        20405: MatchMakingStatusMessage,
+        20406: MatchMakingCancelledMessage,
         20501: 'AcceptFriendFailedMessage',
         20523: 'YoozooOrderAvailableMessage',
         20545: 'YoozooOrderDeliveryFailedMessage',
@@ -288,7 +301,7 @@ class LogicLaserMessageFactory:
         24115: 'ServerErrorMessage',
         24116: 'HomeBattleReplayFailedMessage',
         24117: 'HomeBattleReplayViewedMessage',
-        24123: 'SeasonRewardsMessage',
+        24123: SeasonRewardsMessage, # and DailyEventsMessage
         24124: TeamMessage,
         24125: TeamLeftMessage,
         24129: 'TeamErrorMessage',
@@ -324,7 +337,7 @@ class LogicLaserMessageFactory:
         24364: 'AllianceTeamsMessage',
         24365: 'AllianceTeamRemovedMessage',
         24399: MyAllianceMessage,
-        24403: 'LeaderboardMessage',
+        24403: LeaderboardMessage,
         24411: 'AvatarStreamMessage',
         24412: 'AvatarStreamEntryMessage',
         24413: 'BattleReportStreamMessage',
@@ -332,7 +345,7 @@ class LogicLaserMessageFactory:
         24555: 'FriendOnlineStatusEntryMessage',
         24582: 'TeamInviteStatusMessage',
         24589: 'TeamInvitationMessage',
-        24700: 'BrawlTvChannelListMessage',
+        24700: BrawlTvChannelListMessage,
         24701: 'BrawlTvChannelNextUpMessage',
         24715: 'GlobalChatLineMessage',
         24758: 'ApiTokenMessage',

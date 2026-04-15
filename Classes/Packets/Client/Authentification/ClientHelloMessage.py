@@ -1,5 +1,5 @@
 from Classes.Messaging import Messaging
-
+from Classes.Packets.Server.Authentification.ServerHelloMessage import ServerHelloMessage
 from Classes.Packets.PiranhaMessage import PiranhaMessage
 
 
@@ -8,25 +8,23 @@ class ClientHelloMessage(PiranhaMessage):
         super().__init__(messageData)
         self.messageVersion = 0
 
-    def encode(self, fields):
+    def encode(self):
         pass
 
     def decode(self):
-        fields = {}
-        fields["Protocol"] = self.readInt()
-        fields["KeyVersion"] = self.readInt()
-        fields["MajorVersion"] = self.readInt()
-        fields["MinorVersion"] = self.readInt()
-        fields["Build"] = self.readInt()
-        fields["ContentHash"] = self.readString()
-        fields["DeviceType"] = self.readInt()
-        fields["AppStore"] = self.readInt()
-        super().decode(fields)
-        return fields
+        self.readInt() # protocol
+        self.readInt() # key version
+        self.readInt() # major version
+        self.readInt() # minor version
+        self.readInt() # build
+        self.readString()  # content hash
+        self.readInt() # device type
+        self.readInt() # appstore
+        return self
 
-    def execute(message, calling_instance, fields, cryptoInit):
-        fields["Socket"] = calling_instance.client
-        Messaging.sendMessage(20100, fields, cryptoInit)
+    def execute(message, calling_instance, cryptoInit):
+        serverHelloMessage = ServerHelloMessage(b'')
+        Messaging.sendMessage(serverHelloMessage, calling_instance.client, cryptoInit)
 
     def getMessageType(self):
         return 10100

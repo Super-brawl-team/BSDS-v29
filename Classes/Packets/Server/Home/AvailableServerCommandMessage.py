@@ -1,4 +1,3 @@
-from Classes.Logic.LogicCommandManager import LogicCommandManager
 from Classes.Packets.PiranhaMessage import PiranhaMessage
 
 
@@ -6,16 +5,17 @@ class AvailableServerCommandMessage(PiranhaMessage):
     def __init__(self, messageData):
         super().__init__(messageData)
         self.messageVersion = 0
+        self.command = None
 
-    def encode(self, fields):
-        self.writeVInt(fields["Command"]["ID"])
-        command = LogicCommandManager.createCommand(fields["Command"]["ID"], self.messagePayload)
-        self.messagePayload = command.encode(fields)
+    def encode(self, calling_instance):
+        player = calling_instance.player
+        self.writeVInt(self.command.getCommandType())
+        self.messagePayload += self.command.encode(player)
 
     def decode(self):
         return {}
 
-    def execute(message, calling_instance, fields):
+    def execute(message, calling_instance):
         pass
 
     def getMessageType(self):
@@ -23,3 +23,6 @@ class AvailableServerCommandMessage(PiranhaMessage):
 
     def getMessageVersion(self):
         return self.messageVersion
+    
+    def setCommand(self, command):
+        self.command = command

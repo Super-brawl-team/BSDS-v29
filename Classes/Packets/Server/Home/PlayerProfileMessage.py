@@ -1,38 +1,41 @@
 from Classes.Packets.PiranhaMessage import PiranhaMessage
-
+from Classes.Entries.PlayerDisplayData import PlayerDisplayData
 
 class PlayerProfileMessage(PiranhaMessage):
     def __init__(self, messageData):
         super().__init__(messageData)
         self.messageVersion = 0
+        self.targetID = []
 
-    def encode(self, fields, player):
-        self.writeVLong(fields["PlayerHighID"], fields["PlayerLowID"])
+    def encode(self, calling_instance):
+        db = calling_instance.db
+        player = db.loadInstance(db.getTokenByLowId(self.targetID[1]))
+        self.writeLogicLong(self.targetID)
         self.writeDataReference(0)
-        self.writeVInt(63)
-        for i in range(63):
+        self.writeVInt(len(player.OwnedBrawlers))
+        for i,x in player.OwnedBrawlers.items():
             self.writeDataReference(16, i)
             self.writeDataReference(0)
-            self.writeVInt(500) # trophies
-            self.writeVInt(1250) # highestTrophies
-            self.writeVInt(11) #power level
+            self.writeVInt(x["Trophies"]) # trophies
+            self.writeVInt(x["HighestTrophies"]) # highestTrophies
+            self.writeVInt(x["PowerLevel"]) #power level
         
-        self.writeVInt(13)
+        self.writeVInt(12)
 
         self.writeVInt(1) 
         self.writeVInt(1) # 3v3 victories
 
         self.writeVInt(2)
-        self.writeVInt(2) # total exp
+        self.writeVInt(player.Experience) # total exp
 
         self.writeVInt(3)
-        self.writeVInt(3) # current trophies
+        self.writeVInt(player.Trophies) # current trophies
 
         self.writeVInt(4)
-        self.writeVInt(4) # highest trophies
+        self.writeVInt(player.HighestTrophies) # highest trophies
 
         self.writeVInt(5) 
-        self.writeVInt(5) # unlocked brawler?
+        self.writeVInt(len(player.OwnedBrawlers)) # unlocked brawlers
 
         self.writeVInt(8)
         self.writeVInt(6) # solo victories
@@ -54,50 +57,30 @@ class PlayerProfileMessage(PiranhaMessage):
 
         self.writeVInt(15)
         self.writeVInt(12) # most challenge win
-
-        self.writeVInt(16) #highest level city rampage
-        self.writeVInt(13)
-
-        self.writeString(player.Name)  #PlayerInfo
-        self.writeVInt(100)
-        self.writeVInt(28000001)
-        self.writeVInt(43000001)
-        self.writeVInt(14)
-
-        self.writeBoolean(True)
-        self.writeVInt(0)
-
-        self.writeString("hello world")
-        self.writeVInt(0)
-        self.writeVInt(0)
-
-        self.writeBoolean(True) #alliance
-        self.writeLong(0,1) #alliance ID
-        self.writeString("haccers") #alliance name
-        self.writeDataReference(8,1) # alliance icon
-        self.writeVInt(1) # type
-        self.writeVInt(1) # member count
-        self.writeVInt(10000) # total trophies
-        self.writeVInt(1) # minimum trophies to enter
-        self.writeDataReference(0)
-        self.writeString("CA") #location
-        self.writeVInt(4) # unknown
-        self.writeBoolean(True) #is Family friendly
-        self.writeVInt(0)
         
+        playerDisplayData = PlayerDisplayData()
+        playerDisplayData.setPlayer(player)
+        playerDisplayData.encode(self)
 
+        self.writeBoolean(player.AllianceID[1]!=0)
+        if player.AllianceID[1]!=0:
+            self.writeLong(0,1) #alliance ID
+            self.writeString("haccers") #alliance name
+            self.writeDataReference(8,1) # alliance icon
+            self.writeVInt(1) # type
+            self.writeVInt(1) # member count
+            self.writeVInt(10000) # total trophies
+            self.writeVInt(1) # minimum trophies to enter
+            self.writeDataReference(0)
+            self.writeString("CA") #location
+            self.writeVInt(4) # unknown
+            self.writeBoolean(True) #is Family friendly
         self.writeDataReference(25, 1) #alliance role
 
     def decode(self):
-        pass
-        # fields = {}
-        # fields["PlayerCount"] = self.readVInt()
-        # fields["Text"] = self.readString()
-        # fields["Unk1"] = self.readVInt()
-        # super().decode(fields)
-        return {}
+        return self
 
-    def execute(message, calling_instance, fields):
+    def execute(message, calling_instance):
         pass
 
     def getMessageType(self):
@@ -105,3 +88,6 @@ class PlayerProfileMessage(PiranhaMessage):
 
     def getMessageVersion(self):
         return self.messageVersion
+    
+    def setTargetID(self, targetID):
+        self.targetID = targetID

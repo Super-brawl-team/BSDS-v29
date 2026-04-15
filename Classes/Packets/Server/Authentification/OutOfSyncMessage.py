@@ -5,21 +5,22 @@ class OutOfSyncMessage(PiranhaMessage):
     def __init__(self, messageData):
         super().__init__(messageData)
         self.messageVersion = 0
+        self.serverChecksum = 0
+        self.clientChecksum = 0
+        self.tick = 0
 
-    def encode(self, fields, player):
-        self.writeVInt(fields["ServerChecksum"])
-        self.writeVInt(fields["ClientChecksum"])
-        self.writeVInt(fields["Tick"])
+    def encode(self):
+        self.writeVInt(self.serverChecksum)
+        self.writeVInt(self.clientChecksum)
+        self.writeVInt(self.tick)
 
     def decode(self):
-        fields = {}
-        fields["ServerChecksum"] = self.readVInt()
-        fields["ClientChecksum"] = self.readVInt()
-        fields["Tick"] = self.readVInt()
-        super().decode(fields)
-        return fields
+        self.serverChecksum = self.readVInt()
+        self.clientChecksum = self.readVInt()
+        self.tick = self.readVInt()
+        return self
 
-    def execute(message, calling_instance, fields):
+    def execute(message, calling_instance):
         pass
 
     def getMessageType(self):
@@ -27,3 +28,12 @@ class OutOfSyncMessage(PiranhaMessage):
 
     def getMessageVersion(self):
         return self.messageVersion
+    
+    def setServerChecksum(self, serverChecksum):
+        self.serverChecksum = serverChecksum
+        
+    def setClientChecksum(self, clientChecksum):
+        self.clientChecksum = clientChecksum
+        
+    def setTick(self, tick):
+        self.tick = tick

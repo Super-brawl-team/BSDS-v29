@@ -1,13 +1,14 @@
 from Classes.Packets.PiranhaMessage import PiranhaMessage
-
+from Classes.Entries.PlayerDisplayData import PlayerDisplayData
 
 class TeamMessage(PiranhaMessage):
     def __init__(self, messageData):
         super().__init__(messageData)
         self.messageVersion = 0
 
-    def encode(self, fields, player):
-        self.writeVInt(1) # roomTypes
+    def encode(self, calling_instance):
+        player = calling_instance.player
+        self.writeVInt(1) # roomType
         self.writeBoolean(True) # practice
         self.writeVInt(3) # capacity / maxmembers
         self.writeLong(0,1) # roomID
@@ -21,7 +22,7 @@ class TeamMessage(PiranhaMessage):
         self.writeVInt(1)
         for member in range(1):
             self.writeBoolean(True)  # owner
-            self.writeLong(0,1)  # playerID
+            self.writeLong(0,5)  # playerID
             self.writeDataReference(16, player.SelectedBrawler)  # characterid
             self.writeDataReference(29, player.SelectedSkins.get(player.SelectedBrawler, 0))  # skinid
             self.writeVInt(0) # character trophies
@@ -32,32 +33,22 @@ class TeamMessage(PiranhaMessage):
             self.writeVInt(0) # team
             self.writeVInt(0) # idk
             self.writeVInt(0)  # isk
-            self.writeString(player.Name)  # player name
-            self.writeVInt(0)  # player level
-            self.writeVInt(28000000)  # profile icon
-            self.writeVInt(43000000) # Unknown
-            self.writeVInt(0) # Unknown
-            self.writeDataReference(23, player.TeamGadget) # gadget
-            print(player.TeamGadget)
-            self.writeDataReference(23, player.TeamStarPower) # star power
-            print(player.TeamStarPower)
+            playerDisplayData = PlayerDisplayData()
+            playerDisplayData.setPlayer(player)
+            playerDisplayData.encode(self)
+            self.writeDataReference(23, player.TeamStarPower) # gadget
+            self.writeDataReference(23, player.TeamGadget) # star power
             self.writeVInt(0) # idk
         self.writeVInt(0) # new array its timeeeee
         self.writeVInt(0) # new array its timeeeee
-        self.writeVInt(0) # banned players array
         self.writeBoolean(False) # is club war
-        self.writeBoolean(True) # chat enabled
+        self.writeBoolean(not player.ChatMuted) # chat enabled
         self.writeBoolean(True) # gadgets enabled
 
     def decode(self):
-        fields = {}
-        fields["PlayerCount"] = self.readVInt()
-        fields["Text"] = self.readString()
-        fields["Unk1"] = self.readVInt()
-        super().decode(fields)
-        return {}
+        return self
 
-    def execute(message, calling_instance, fields):
+    def execute(message, calling_instance):
         pass
 
     def getMessageType(self):

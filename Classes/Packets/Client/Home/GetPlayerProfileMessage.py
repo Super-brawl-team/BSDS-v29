@@ -1,5 +1,5 @@
 from Classes.Messaging import Messaging
-
+from Classes.Packets.Server.Home.PlayerProfileMessage import PlayerProfileMessage
 from Classes.Packets.PiranhaMessage import PiranhaMessage
 
 
@@ -7,41 +7,19 @@ class GetPlayerProfileMessage(PiranhaMessage):
     def __init__(self, messageData):
         super().__init__(messageData)
         self.messageVersion = 0
+        self.targetID = []
 
-    def encode(self, fields):
-        pass
+    def encode(self):
+        self.writeLong(*self.targetID)
 
     def decode(self):
-        fields = {}
-        fields["PlayerHighID"] = self.readInt()
-        fields["PlayerLowID"] = self.readInt()
-        #fields["PlayerProfileID"] = self.readLong()
-        fields["BattleInfoBoolean"] = self.readBoolean()
-        if fields["BattleInfoBoolean"]:
-            fields["unk1"] = self.readVInt()
-            fields["AnotherID"] = self.readLong()
-            fields["unk2"] = self.readVInt()
-            for i in self.readVInt():
-                fields["CsvID"] = self.readDataReference()
-                fields["unk3"] = self.readVInt()
-                fields["unk4"] = self.readVInt()
-                fields["unk5"] = self.readVInt()
-            fields["unk6"] = self.readVInt()
-            fields["PlayerName"] = self.readString()
-            fields["unk7"] = self.readVInt()
-            fields["Thumbnail"] = self.readVInt()
-            fields["NameColor"] = self.readVInt()
-            fields["unk10"] = self.readVInt()
-        fields["unk11"] = self.readVInt()
-        
-        super().decode(fields)
+        self.targetID = self.readLong()
+        return self
 
-
-        return fields
-
-    def execute(message, calling_instance, fields, cryptoInit):
-        fields["Socket"] = calling_instance.client
-        Messaging.sendMessage(24113, fields, cryptoInit, calling_instance.player)
+    def execute(message, calling_instance, cryptoInit):
+        playerProfileMessage = PlayerProfileMessage(b'')
+        playerProfileMessage.setTargetID(message.targetID)
+        Messaging.sendMessage(playerProfileMessage, calling_instance.client, cryptoInit, calling_instance)
 
     def getMessageType(self):
         return 14113

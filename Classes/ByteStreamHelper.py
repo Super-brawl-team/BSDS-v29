@@ -5,7 +5,7 @@ class ByteStreamHelper:
     def readDataReference(self):
         result = []
         result.append(self.readVInt())
-        if not result[0]:
+        if result[0] == 0:
             return [result[0], -1] # WTF risporce
         result.append(self.readVInt())
         return result

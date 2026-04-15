@@ -1,5 +1,5 @@
 from Classes.Messaging import Messaging
-
+from Classes.Packets.Server.Home.OwnHomeDataMessage import OwnHomeDataMessage
 from Classes.Packets.PiranhaMessage import PiranhaMessage
 
 
@@ -8,17 +8,17 @@ class GoHomeMessage(PiranhaMessage):
         super().__init__(messageData)
         self.messageVersion = 0
 
-    def encode(self, fields):
+    def encode(self):
+        self.writeBoolean(False)
         pass
 
     def decode(self):
-        fields = {}
         self.readBoolean()
-        return fields
+        return self
 
-    def execute(message, calling_instance, fields, cryptoInit):
-        fields["Socket"] = calling_instance.client
-        Messaging.sendMessage(24101, fields, cryptoInit, calling_instance.player)
+    def execute(message, calling_instance, cryptoInit):
+        ownHomeDataMessage = OwnHomeDataMessage(b'')
+        Messaging.sendMessage(ownHomeDataMessage, calling_instance.client, cryptoInit, calling_instance)
 
     def getMessageType(self):
         return 14101

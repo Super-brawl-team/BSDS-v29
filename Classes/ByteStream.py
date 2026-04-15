@@ -265,7 +265,7 @@ class ByteStream(ChecksumEncoder):
         self.offset += length
         return result
 
-    def readStringReference(self, max):
+    def readStringReference(self, max=900000):
         self.bitoffset = 0
         length = (self.messagePayload[self.offset] << 24)
         length += (self.messagePayload[self.offset + 1] << 16)
@@ -279,7 +279,7 @@ class ByteStream(ChecksumEncoder):
         elif length > max:
             Debugger.warning(f"Too long String encountered, length {length}, max {max}")
             return b''
-        result = self.messagePayload[self.offset].decode('utf-8')
+        result = bytes(self.messagePayload[self.offset:self.offset + length]).decode('utf-8')
         self.offset += length
         return result
 
@@ -556,6 +556,12 @@ class ByteStream(ChecksumEncoder):
         self.bitoffset = 0
         self.writeVInt(high)
         self.writeVInt(low)
+        
+    def writeLogicLong(self, logicLong):
+        ChecksumEncoder.writeVLong(self, logicLong[0], logicLong[1])
+        self.bitoffset = 0
+        self.writeVInt(logicLong[0])
+        self.writeVInt(logicLong[1])
 
     def writeCompressedString(self, data):
         self.bitoffset = 0

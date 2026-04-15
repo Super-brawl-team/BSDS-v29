@@ -1,9 +1,13 @@
+from Classes.Commands.Client.LogicSetPlayerNameColorCommand import LogicSetPlayerNameColorCommand
 from Classes.Commands.Client.LogicPurchaseOfferCommand import LogicPurchaseOfferCommand
 from Classes.Commands.Client.LogicSelectCharacterCommand import LogicSelectCharacterCommand
 from Classes.Commands.Client.LogicSelectSkinCommand import LogicSelectSkinCommand
 from Classes.Commands.Client.LogicSelectStarPowerCommand import LogicSelectStarPowerCommand
 from Classes.Commands.Server.LogicChangeAvatarNameCommand import LogicChangeAvatarNameCommand
-
+from Classes.Commands.Client.LogicClaimRankUpRewardCommand import LogicClaimRankUpRewardCommand
+from Classes.Commands.Client.LogicSetPlayerThumbnailCommand import LogicSetPlayerThumbnailCommand
+from Classes.Commands.Client.LogicGatchaCommand import LogicGatchaCommand
+from Classes.Commands.Client.LogicLevelUpCommand import LogicLevelUpCommand
 
 class LogicCommandManager:
     commandsList = {
@@ -31,10 +35,10 @@ class LogicCommandManager:
         222: 'LogicRankedSeasonChangedCommand',
         223: 'LogicCooldownAddedCommand',
         224: 'LogicSetESportsHubNotificationCommand',
-        500: 'LogicGatchaCommand',
+        500: LogicGatchaCommand,
         503: 'LogicClaimDailyRewardCommand',
         504: 'LogicSendAllianceMailCommand',
-        505: 'LogicSetPlayerThumbnailCommand',
+        505: LogicSetPlayerThumbnailCommand,
         506: LogicSelectSkinCommand,
         507: 'LogicUnlockSkinCommand',
         508: 'LogicChangeControlModeCommand',
@@ -43,17 +47,17 @@ class LogicCommandManager:
         512: 'LogicToggleInGameHintsCommand',
         514: 'LogicDeleteNotificationCommand',
         515: 'LogicClearShopTickersCommand',
-        517: 'LogicClaimRankUpRewardCommand',
+        517: LogicClaimRankUpRewardCommand,
         518: 'LogicPurchaseTicketsCommand',
         519: LogicPurchaseOfferCommand,
-        520: 'LogicLevelUpCommand',
+        520: LogicLevelUpCommand,
         521: 'LogicPurchaseHeroLvlUpMaterialCommand',
         522: 'LogicHeroSeenCommand',
         523: 'LogicClaimAdRewardCommand',
         524: 'LogicVideoStartedCommand',
         525: LogicSelectCharacterCommand,
         526: 'LogicUnlockFreeSkinsCommand',
-        527: 'LogicSetPlayerNameColorCommand',
+        527: LogicSetPlayerNameColorCommand,
         528: 'LogicViewInboxNotificationCommand',
         529: LogicSelectStarPowerCommand,
         530: 'LogicSetPlayerAgeCommand',

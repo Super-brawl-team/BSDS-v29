@@ -1,5 +1,5 @@
 from Classes.Messaging import Messaging
-
+from Classes.Packets.Server.Home.AllianceDataMessage import AllianceDataMessage
 from Classes.Packets.PiranhaMessage import PiranhaMessage
 
 
@@ -7,24 +7,21 @@ class AskForAllianceDataMessage(PiranhaMessage):
     def __init__(self, messageData):
         super().__init__(messageData)
         self.messageVersion = 0
+        self.targetID = []
 
-    def encode(self, fields):
+    def encode(self):
         pass
 
     def decode(self):
-        fields = {}
-        fields["id"] = self.readVLong()
-        fields["isInAlliance"] = self.readBoolean()
-        if fields["isInAlliance"] == True:
-            fields["anotherIDHigh"] = self.readVInt()
-            fields["anotherIDLow"] = self.readVInt()
-        super().decode(fields)
+        self.targetID = self.readLong()
+        if self.readBoolean():
+            self.targetID = self.readLong()
+        return self
 
-        return fields
-
-    def execute(message, calling_instance, fields, cryptoInit):
-        fields["Socket"] = calling_instance.client
-        Messaging.sendMessage(24301, fields, cryptoInit, calling_instance.player)
+    def execute(message, calling_instance, cryptoInit):
+        allianceDataMessage = AllianceDataMessage(b'')
+        allianceDataMessage.setTargetID(message.targetID)
+        Messaging.sendMessage(allianceDataMessage, calling_instance.client, cryptoInit, calling_instance)
 
     def getMessageType(self):
         return 14302

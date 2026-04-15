@@ -7,20 +7,16 @@ class LobbyInfoMessage(PiranhaMessage):
         super().__init__(messageData)
         self.messageVersion = 0
 
-    def encode(self, fields, player):
+    def encode(self, calling_instance):
+        player = calling_instance.player
         self.writeVInt(ClientsManager.GetCount())
         self.writeString("Project BSDS \n"f"Version: {player.ClientVersion}")
         self.writeVInt(0)
 
     def decode(self):
-        fields = {}
-        fields["PlayerCount"] = self.readVInt()
-        fields["Text"] = self.readString()
-        fields["Unk1"] = self.readVInt()
-        super().decode(fields)
-        return {}
+        return self
 
-    def execute(message, calling_instance, fields):
+    def execute(message, calling_instance):
         pass
 
     def getMessageType(self):

@@ -6,13 +6,13 @@ class KeepAliveServerMessage(PiranhaMessage):
         super().__init__(messageData)
         self.messageVersion = 0
 
-    def encode(self, fields):
+    def encode(self):
         pass
 
     def decode(self):
-        return {}
+        return self
 
-    def execute(message, calling_instance, fields):
+    def execute(message, calling_instance):
         pass
 
     def getMessageType(self):

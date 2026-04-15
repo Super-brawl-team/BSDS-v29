@@ -1,6 +1,4 @@
-import Configuration
 from Classes.ByteStream import ByteStream
-from Classes.Utility import Utility
 
 
 class LogicCommand(ByteStream):
@@ -9,19 +7,13 @@ class LogicCommand(ByteStream):
         self.messageBuffer = commandData
         self.messagePayload = commandData
 
-    def encode(self, fields):
+    def encode(self):
         self.writeVInt(0)
         self.writeVInt(0)
         self.writeVLong(0, 0)
 
-    def decode(calling_instance, fields, auto_decode=True):
-        fields["TickWhenGiven"] = calling_instance.readVInt()
-        fields["ExecuteTick"] = calling_instance.readVInt()
-        fields["ExecutorAccountID"] = calling_instance.readVLong()
-        if Configuration.settings['PrintEnabled'] and auto_decode == True:
-            Utility.parseFields(fields)
-        return fields
-
-    def parseFields(fields):
-        if Configuration.settings['PrintEnabled']:
-            Utility.parseFields(fields)
+    def decode(calling_instance):
+        calling_instance.readVInt() #TickWhenGiven
+        calling_instance.readVInt() #ExecuteTick
+        calling_instance.readVLong() #ExecutorAccountID
+        return calling_instance

@@ -1,19 +1,34 @@
-# This is a fork from original BSDS by [Crazor](https://github.com/CrazorTheCat)  with a lot less features, it is meant for developement, do not use for production and hosting for others.
-# This server is rushed a bad honestly, just add crypto back to royalebrawl v29 and use it
+# This is a fork from original BSDS by [Crazor](https://github.com/CrazorTheCat)  with a some improvements, it is mostly meant for developement, but I get you can make it prod
+# This server is a bit rushed but definitely playable, i will update it when I can
 
 Discord link : https://discord.gg/mt4dUxXryh
+## Features 
+1. Almost fully working brawl pass prototype (buy premium with /buyPass in team chat)
+2. Working progression system
+3. Power Play and partially challenges
 
-## Download ##
-Link : https://www.mediafire.com/file/6ivvvh25gmdxjhy/BSDS-29.ipa/file
+## TODO
+1. Clubs
+2. Online Battles (I won't do that)
+3. Fully online teams
+4. Fully working challenges
+
+
+## Download IOS##
+Link : https://www.mediafire.com/file/m9m3szcr1ciw6ci/v26-2.ipa/file
 READ THIS PLEASE I BEG YOU, to make the client connect to server BEFORE INSTALLING IT you need to 
 1. extract the ipa (rename .ipa to .zip)
 2. use https://github.com/Mimi8298/Supercell.ArxanUnprotector to decrypt the "Brawl Stars" file (you need a PC sorry) 
-3. with an hex editor replace "198.164.1.184" to you own ip
+3. with an hex editor replace "192.164.1.184" to you own ip
 4. then encrypt it back
 5. update checksums (do not ask and read the readme of arxan unprotector please)
 6. compress the payload folder,
 7. rename the zip to something.ipa
 8. INSTALL THIS NEW VERSION
+
+## Download Android
+Link : -
+Just get classic brawl one it will work fine
 
 
 ## Requirements: ##
@@ -47,16 +62,14 @@ READ THIS PLEASE I BEG YOU, to make the client connect to server BEFORE INSTALLI
 
 ""
 ## Client features ##
-1. Patched cryptography keys
-2. Enabled emotes use on offline battles
-3. Offline battles enabled everywhere (even friendlies!!)
-4. Lobby Info
-5. Patched HoldToShoot attacking before game starts
-6. prob more but i forgot
+1. Crypto disabled!
+2. Offline battles enabled everywhere (even friendlies!!)
+3. Lobby Info
+4. Can read tickets input for events
+5. prob more but i forgot
 
 ![image](https://github.com/Super-brawl-team/BSDS-v29/blob/v29/images/gameplay.png)
 
 ## credits ##
-[S.B#0056](https://github.com/HaccerCat) for his help with crypto and client
-
-[Vitalik](https://github.com/VitalikObject) for his crypto from [OldBrawl](https://github.com/VitalikObject/OldBrawl)
+[depressiveprimo] Most of the code
+[CrazorTheCat] For code base

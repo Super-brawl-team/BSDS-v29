@@ -5,11 +5,13 @@ class AllianceDataMessage(PiranhaMessage):
     def __init__(self, messageData):
         super().__init__(messageData)
         self.messageVersion = 0
+        self.targetID = []
 
-    def encode(self, fields, player):
-        self.writeBoolean(True) # IsOwnAlliance
+    def encode(self, calling_instance):
+        player = calling_instance.player
+        self.writeBoolean(self.targetID == player.AllianceID) # IsOwnAlliance
 
-        self.writeLong(0, 1) # alliance ID
+        self.writeLong(self.targetID[0], self.targetID[1]) # alliance ID
         self.writeString('haccers') # alliance name
         self.writeDataReference(8, 0) # alliance icon
         self.writeVInt(1) # type
@@ -24,7 +26,7 @@ class AllianceDataMessage(PiranhaMessage):
         self.writeString("this is the hacciest club in the world")
 
         self.writeVInt(1) # member count
-        self.writeLong(0, 1) # player ID
+        self.writeLong(0, 2) # player ID
         self.writeVInt(2) # role
         self.writeVInt(9500) # trophies
         self.writeVInt(0) # status: 0=offline 2=online
@@ -35,15 +37,12 @@ class AllianceDataMessage(PiranhaMessage):
         self.writeVInt(100) # VInt always 100
         self.writeVInt(28000183) # thumbnail
         self.writeVInt(43000008) # name color
-        self.writeVInt(0) # idk but this number change
 
 
     def decode(self):
-        fields = {}
-        super().decode(fields)
-        return {}
+        return self
 
-    def execute(message, calling_instance, fields):
+    def execute(message, calling_instance):
         pass
 
     def getMessageType(self):
@@ -51,3 +50,6 @@ class AllianceDataMessage(PiranhaMessage):
 
     def getMessageVersion(self):
         return self.messageVersion
+    
+    def setTargetID(self, targetID):
+        self.targetID = targetID

@@ -1,5 +1,5 @@
 import traceback
-
+from Classes.Packets.PiranhaMessage import PiranhaMessage
 
 class Messaging:
     def writeHeader(message, payloadLen):
@@ -13,19 +13,14 @@ class Messaging:
         headerData.append(int.from_bytes(headerBytes[2:5], 'big', signed=True))
         return headerData
 
-    def sendMessage(messageType, fields, cryptoInit,  player=None):
-        from Classes.Logic.LogicLaserMessageFactory import LogicLaserMessageFactory
-        message = LogicLaserMessageFactory.createMessageByType(messageType, b'')
-        if player is not None:
-            message.encode(fields, player)
+    def sendMessage(message: PiranhaMessage, clientConnection, cryptoInit,  calling_instance=None):
+        if calling_instance is not None:
+            message.encode(calling_instance)
         else:
-            message.encode(fields)
-        if messageType == 20100:
-            cryptoInit.setSessionKey(message.getSessionKey())
-        message.messagePayload = cryptoInit.encryptServer(message.getMessageType(), message.messagePayload)
+            message.encode()
         Messaging.writeHeader(message, len(message.messagePayload))
         message.messageBuffer += message.messagePayload
         try:
-            fields["Socket"].send(message.messageBuffer)
+            clientConnection.send(message.messageBuffer)
         except Exception:
             print(traceback.format_exc())

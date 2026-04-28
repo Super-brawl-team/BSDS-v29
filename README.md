@@ -15,7 +15,7 @@ Discord link : https://discord.gg/mt4dUxXryh
 
 
 ## Download IOS##
-Link : https://www.mediafire.com/file/m9m3szcr1ciw6ci/v26-2.ipa/file
+Link : [https://www.mediafire.com/file/m9m3szcr1ciw6ci/v26-2.ipa/file](https://www.mediafire.com/file/4wih2qa4989yu0d/BSDS-v26.ipa/file)
 READ THIS PLEASE I BEG YOU, to make the client connect to server BEFORE INSTALLING IT you need to 
 1. extract the ipa (rename .ipa to .zip)
 2. use https://github.com/Mimi8298/Supercell.ArxanUnprotector to decrypt the "Brawl Stars" file (you need a PC sorry) 

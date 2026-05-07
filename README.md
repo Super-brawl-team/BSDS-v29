@@ -14,7 +14,7 @@ Discord link : https://discord.gg/mt4dUxXryh
 4. Fully working challenges
 
 
-## Download IOS##
+## Download IOS
 Link : https://www.mediafire.com/file/m9m3szcr1ciw6ci/v26-2.ipa/file
 READ THIS PLEASE I BEG YOU, to make the client connect to server BEFORE INSTALLING IT you need to 
 1. extract the ipa (rename .ipa to .zip)
@@ -28,7 +28,14 @@ READ THIS PLEASE I BEG YOU, to make the client connect to server BEFORE INSTALLI
 
 ## Download Android
 Link : [v26-libpatch.apk](https://www.mediafire.com/file/ojvlbzko3iui4qn/v26-libpatch.apk/file)
-current ipv4 is `192.168.1.22`
+READ THIS PLEASE I BEG YOU, to make the client connect to server BEFORE INSTALLING IT you need to 
+1. decompile the apk
+2. use https://github.com/Mimi8298/Supercell.ArxanUnprotector to decrypt libg.so
+3. with an hex editor replace "192.164.1.22" to you own ip
+4. then encrypt it back
+5. update checksums (do not ask and read the readme of arxan unprotector please)
+6. compile/save and install
+7. have fun
 ## Android Features
 - crypto disabled
 - offline battles enabled in matchmaking

@@ -14,8 +14,10 @@ Discord link : https://discord.gg/mt4dUxXryh
 4. Fully working challenges
 
 
+
 ## Download IOS##
 Link : [https://www.mediafire.com/file/m9m3szcr1ciw6ci/v26-2.ipa/file](https://www.mediafire.com/file/4wih2qa4989yu0d/BSDS-v26.ipa/file)
+
 READ THIS PLEASE I BEG YOU, to make the client connect to server BEFORE INSTALLING IT you need to 
 1. extract the ipa (rename .ipa to .zip)
 2. use https://github.com/Mimi8298/Supercell.ArxanUnprotector to decrypt the "Brawl Stars" file (you need a PC sorry) 
@@ -27,9 +29,20 @@ READ THIS PLEASE I BEG YOU, to make the client connect to server BEFORE INSTALLI
 8. INSTALL THIS NEW VERSION
 
 ## Download Android
-Link : -
-Just get classic brawl one it will work fine
-
+Link : [v26-libpatch.apk](https://www.mediafire.com/file/ojvlbzko3iui4qn/v26-libpatch.apk/file)
+READ THIS PLEASE I BEG YOU, to make the client connect to server BEFORE INSTALLING IT you need to 
+1. decompile the apk
+2. use https://github.com/Mimi8298/Supercell.ArxanUnprotector to decrypt libg.so
+3. with an hex editor replace "192.164.1.22" to you own ip
+4. then encrypt it back
+5. update checksums (do not ask and read the readme of arxan unprotector please)
+6. compile/save and install
+7. have fun
+## Android Features
+- crypto disabled
+- offline battles enabled in matchmaking
+- lobby info
+- tickets will be implemnted soon ig
 
 ## Requirements: ##
 1. a brain...

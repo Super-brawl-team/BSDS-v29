@@ -27,9 +27,13 @@ READ THIS PLEASE I BEG YOU, to make the client connect to server BEFORE INSTALLI
 8. INSTALL THIS NEW VERSION
 
 ## Download Android
-Link : -
-Just get classic brawl one it will work fine
-
+Link : [v26-libpatch.apk](https://www.mediafire.com/file/ojvlbzko3iui4qn/v26-libpatch.apk/file)
+current ipv4 is `192.168.1.22`
+## Android Features
+- crypto disabled
+- offline battles enabled in matchmaking
+- lobby info
+- tickets will be implemnted soon ig
 
 ## Requirements: ##
 1. a brain...

@@ -33,7 +33,7 @@ Link : [v26-libpatch.apk](https://www.mediafire.com/file/ojvlbzko3iui4qn/v26-lib
 READ THIS PLEASE I BEG YOU, to make the client connect to server BEFORE INSTALLING IT you need to 
 1. decompile the apk
 2. use https://github.com/Mimi8298/Supercell.ArxanUnprotector to decrypt libg.so
-3. with an hex editor replace "192.164.1.22" to you own ip
+3. with an hex editor replace "192.168.1.22" to you own ip
 4. then encrypt it back
 5. update checksums (do not ask and read the readme of arxan unprotector please)
 6. compile/save and install
